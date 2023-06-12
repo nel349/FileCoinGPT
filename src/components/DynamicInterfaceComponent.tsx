@@ -1,25 +1,5 @@
 import React from 'react';
-import styled from 'styled-components';
-
-const Button = styled.button`
-  background-color: #0077cc;
-  color: #fff;
-  border: none;
-  padding: 8px 16px;
-  border-radius: 4px;
-  cursor: pointer;
-`;
-
-const Input = styled.input`
-  padding: 8px;
-  border-radius: 4px;
-  border: 1px solid #ccc;
-`;
-
-const Detail = styled.p`
-  font-size: 14px;
-  color: #333;
-`;
+import { Button, Input, Detail } from '../styles/components/DynamicInterfaceComponentStyles';
 
 const DynamicComponent = ({ data }) => {
   const renderComponent = (componentData) => {
@@ -32,11 +12,10 @@ const DynamicComponent = ({ data }) => {
         );
       case 'actionButton2':
         return (
-          <div>
+          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
             <Input
               type="text"
               placeholder={componentData.inputTextField.placeholder}
-              value={componentData.inputTextField.value}
             />
             <Button onClick={() => console.log(componentData.action)}>
               {componentData.label}
@@ -44,7 +23,7 @@ const DynamicComponent = ({ data }) => {
           </div>
         );
       case 'detailType1':
-        return <Detail>{componentData.text}</Detail>;
+        return <Detail>{componentData.label}:{componentData.text}</Detail>;
       default:
         return null;
     }
