@@ -1,0 +1,554 @@
+---
+openapi: 3.0.2
+info:
+  title: Retrieval Plugin API
+  description: A retrieval API for querying and filtering Ethereum based on natural language queries and metadata. Also manages Chainlink subscriptions for chainlink functions.
+  version: 1.0.0
+  servers:
+    - url: http://localhost:3333
+paths:
+  /api-askSxT:
+    post:
+      operationId: askSxT
+      summary: Receives a question in normal language and transforms it into sql code
+        for querying the Space and Time database. Then returns the results
+        displayed as a table.
+      description: Receives a question in normal language and transforms it into sql
+        code for querying the Space and Time database. Do not use this endpoint
+        for querying recent transactions. Use the /getTxListAddress endpoint
+        instead.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/askSxTRequest"
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/getSxTResponse"
+  /getTxListAddress:
+    post:
+      operationId: getTxListAddress
+      summary: Receives an address and fetches transactions associated with the address.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/askTxListByAddressRequest"
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/askTxListByAddressResponse"
+  /getContractSourceCode:
+    post:
+      operationId: getContractSourceCode
+      summary: Retrieves the source code from the given contract address.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/contractSourceCodeRequest"
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/contractSourceCodeResponse"
+  /getSubscriptionInfo:
+    post:
+      operationId: getSubscriptionInfo
+      summary: Get subscription information for a chainlink function given a subscription id.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/getSubscriptionInfoRequest"
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/getSubscriptionInfoResponse"
+
+  /getLatestResponse:
+    post:
+      operationId: getLatestResponse
+      summary: Get latest response of the given Chainlink function consumer contract.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/getLatestResponseRequest"
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/getLatestResponseResponse"
+  /createSubscription:
+    post:
+      operationId: createSubscription
+      summary: Generates a URL so the user can create a subscription for Chainlink functions.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/createSubscriptionRequest"
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/createSubscriptionResponse"
+  /addConsumer:
+    post:
+      operationId: addConsumer
+      summary: Generates a URL so the user can create a subscription for Chainlink functions.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/addConsumerRequest"
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/addConsumerResponse"
+  /removeConsumer:
+    post:
+      operationId: removeConsumer
+      summary: Generates a URL so the user can remove a consumer contract from a subscription.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/removeConsumerRequest"
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/removeConsumerResponse"
+  /fundSubscription:
+    post:
+      operationId: fundSubscription
+      summary: Generates a URL so the user can fund a subscription with LINK.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/fundSubscriptionRequest"
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/fundSubscriptionResponse"
+  /transferSubscriptionOwnership:
+    post:
+      operationId: transferSubscriptionOwnership
+      summary: Generates a URL so the user can transfer ownership of a subscription.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/transferSubscriptionOwnershipRequest"
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/transferSubscriptionOwnershipResponse"
+  /acceptSubscriptionOwnership:
+    post:
+      operationId: acceptSubscription
+      summary: Generates a URL so the user can accept a subscription request.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/acceptSubscriptionRequest"
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/acceptSubscriptionResponse"
+  /sendRequest:
+    post:
+      operationId: sendFunction
+      summary: Generates a URL so the user can send a function request to a consumer contract.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/sendFunctionRequest"
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/sendFunctionResponse"
+components:
+  schemas:
+    sendFunctionRequest:
+      type: object
+      description: Request to send a transaction to a contract.
+      required:
+        - consumerAddress
+        - subscriptionId
+        - urlSource
+      properties:
+        consumerAddress:
+          type: string
+          description: Address of the consumer contract to send the transaction to.
+          required: true
+        subscriptionId:
+          type: string
+          description: Subscription to be used to send the function request.
+          required: true
+        urlSource:
+          type: array
+          description: Source code url that will executed by the chainlink function.
+          required: true
+          items:
+            type: string
+    sendFunctionResponse:
+      type: link
+      description: A URL to make a Chainlink Function request.
+    acceptSubscriptionRequest:
+      type: object
+      description: Accept a subscription request.
+      required:
+        - subscriptionId
+      properties:
+        subscriptionId:
+          type: string
+          description: Subscription id to accept.
+          required: true
+    acceptSubscriptionResponse:
+      type: link
+      description: A URL to make a transaction to accept a subscription.
+    transferSubscriptionOwnershipRequest:
+      type: object
+      description: Transfer ownership of a subscription to a new address.
+      required:
+        - subscriptionId
+        - newOwnerAddress
+      properties:
+        subscriptionId:
+          type: string
+          description: Subscription id to transfer ownership of.
+          required: true
+        newOwnerAddress:
+          type: string
+          description: Address to transfer ownership of subscription to.
+          required: true
+    transferSubscriptionOwnershipResponse:
+      type: link
+      description: A URL to make a transaction to transfer ownership of a subscription.
+    fundSubscriptionRequest:
+      type: object
+      description: Request to fund a given address with LINK.
+      required:
+        - subscriptionId
+        - amount
+      properties:
+        subscriptionId:
+          type: string
+          description: Subscription id to fund.
+          required: true
+        amount:
+          type: string
+          description: Amount of LINK to fund address with.
+          required: true
+    fundSubscriptionResponse:
+      type: link
+      description: A URL to make a transaction to fund a given subscription with LINK.
+    removeConsumerRequest:
+      type: object
+      description: Remove consumer contract to a given chainlink subscription id.
+      required:
+        - consumerAddress
+        - subscriptionId
+      properties:
+        consumerAddress:
+          type: string
+          description:  Address of consumer contract Chainlink function to remove from subscription.
+          required: true
+        subscriptionId:
+          type: string
+          description:  Chainlink subscription id to remove consumer contract from.
+          required: true
+    removeConsumerResponse:
+      type: link
+      description: A URL to make a transaction to add a consumer contract to a subscription.
+    addConsumerRequest:
+      type: object
+      description: Add consumer contract to chainlink subscription.
+      required:
+        - consumerAddress
+        - subscriptionId
+      properties:
+        consumerAddress:
+          type: string
+          description: Address of consumer contract Chainlink function to add to subscription.
+          required: true
+        subscriptionId:
+          type: string
+          description: Chainlink subscription id to add consumer contract to.
+          required: true
+    addConsumerResponse:
+      type: link
+      description: A URL to make a transaction to add a consumer contract to a subscription.
+    createSubscriptionRequest:
+      type: object
+      description: Create a subscription for a Chainlink function consumer contract.
+      properties:
+        address:
+          type: string
+          description: Address of consumer contract Chainlink function.
+          required: true
+    createSubscriptionResponse:
+      type: link
+      description: A URL to make a transaction to create a subscription.
+    getLatestResponseRequest:
+      type: object
+      required:
+        - address
+      properties:
+        address:
+          type: string
+          description: Address of consumer contract Chainlink function.
+          required: true
+    getLatestResponseResponse:
+      type: string
+      description: Latest response of the given consumer contract.
+    getSubscriptionInfoRequest:
+      type: object
+      required:
+        - subscriptionId
+      properties:
+        subscriptionId:
+          type: string
+          description: Chainlink subscription id to get information from.
+          required: true
+    getSubscriptionInfoResponse:
+      type: object
+      properties:
+        balance:
+          type: string
+          description: The balance of the subscription in LINK tokens.
+        subscriptionId:
+          type: string
+          description: The id of the subscription.
+        subscriptionOwner:
+          type: string
+          description: The owner of the subscription.
+        consumer:
+          type: array
+          items:
+            type: string
+          description: The consumers of the subscription.
+    askSxTRequest:
+      type: object
+      required:
+        - question
+      properties:
+        question:
+          type: string
+          description: A question in normal language.
+          required: true
+    getSxTResponse:
+      type: object
+      properties:
+        rows:
+          type: array
+          items:
+            type: object
+          description: Display results.
+        sql:
+          type: string
+          description: Sql query used.
+    askTxListByAddressRequest:
+      type: object
+      required:
+        - address
+      properties:
+        address:
+          type: string
+          description: Get transaction list from etherscan for a particular address.
+          required: true
+    askTxListByAddressResponse:
+      type: object
+      properties:
+        list:
+          type: array
+          description: The list of transactions.
+          items:
+            type: object
+            properties:
+              blockNumber:
+                type: number
+                description: The block number of the transaction.
+                example: 3622369
+              timeStamp:
+                type: number
+                description: The block number of the transaction.
+                example: 1685886096
+              hash:
+                type: string
+                description: The hash of the transaction.
+                example: "0xc55dac9e49865c6dae752f2f1a5165b5eb29bc347cf95cae644b5712c2eebf79"
+              from:
+                type: string
+                description: The address of the sender.
+                example: "0x9584dd0d9ba9d81103020281b77ea23caac4e3a4"
+              to:
+                type: string
+                description: The address of the receiver.
+                example: "0xf4c1b1b5f4885588f25231075d896cf8d2946d60"
+              value:
+                type: string
+                description: The value of the transaction.
+                example: "0"
+              gas:
+                type: number
+                description: The gas limit of the transaction.
+                example: 470808
+              gasPrice:
+                type: string
+                description: The gas price of the transaction.
+                example: "1500000008"
+              isError:
+                type: string
+                description: Whether the transaction encountered an error.
+                example: "0"
+              txreceipt_status:
+                type: string
+                description: The status of the transaction receipt.
+                example: "1"
+              input:
+                type: string
+                description: The input data of the transaction.
+                example: "0x0"
+              contractAddress:
+                type: string
+                description: The address of the contract created by the transaction.
+                example: ""
+              cumulativeGasUsed:
+                type: number
+                description: The total amount of gas used by the transaction and its associated
+                  operations.
+                example: 3107176
+              gasUsed:
+                type: number
+                description: The amount of gas used by the transaction.
+                example: 333772
+              confirmations:
+                type: number
+                description: The number of confirmations of the transaction.
+                example: 18529
+              methodId:
+                type: string
+                description: The method ID of the function called in the transaction.
+                example: "0x27714589"
+              functionName:
+                type: string
+                description: The name of the function called in the transaction.
+                example: executeRequest(string source,bytes secrets,string[] args,uint64
+                  subscriptionId,uint32 gasLimit)
+    contractSourceCodeRequest:
+      type: object
+      required:
+        - address
+      properties:
+        address:
+          type: string
+          description: Get the source code for particular contract address.
+          required: true
+        keyword:
+          type: string
+          description: The keyword to search for in the source code. Some word that is
+            unique to the contract. such as the name of the contract or a
+            function name. Use only if we know a function name, contract name,
+            event name.
+          required: false
+    contractSourceCodeResponse:
+      type: object
+      properties:
+        result:
+          type: array
+          items:
+            type: object
+            properties:
+              SourceCode:
+                type: string
+                description: The source code of the contract.
+              ContractName:
+                type: string
+                description: The name of the contract.
+                example: DAO
+              CompilerVersion:
+                type: string
+                description: The version of the compiler used to compile the contract.
+                example: v0.3.1-2016-04-12-3ad5e82
+              OptimizationUsed:
+                type: string
+                description: Whether optimization was used during compilation.
+                example: "1"
+              Runs:
+                type: string
+                description: The number of runs performed during compilation.
+                example: "200"
+              ConstructorArguments:
+                type: string
+                description: The arguments passed to the contract constructor.
+                example: 000000000000000000000000da4a4626d3e16e094de3225a751aab7128e965260000000000000000000000004a574510c7014e4ae985403536074abe582adfc80000000000000000000000000000000000000000000000001bc16d674ec80000000000000000000000000000000000000000000000000a968163f0a57b4000000000000000000000000000000000000000000000000000000000000057495e100000000000000000000000000000000000000000000000000000000000000000
+              EVMVersion:
+                type: string
+                description: The version of the EVM used to execute the contract.
+                example: Default
+              Library:
+                type: string
+                description: The address of the library used by the contract.
+                example: ""
+              LicenseType:
+                type: string
+                description: The type of license used by the contract.
+                example: ""
+              Proxy:
+                type: string
+                description: Whether the contract is a proxy contract.
+                example: "0"
+              Implementation:
+                type: string
+                description: The address of the implementation contract used by the proxy
+                  contract.
+                example: ""
+              SwarmSource:
+                type: string
+                description: The Swarm source of the contract.
+                example: ""

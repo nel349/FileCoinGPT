@@ -2,6 +2,8 @@ import ChatBoxComponent from '../components/ChatBoxComponent';
 import DynamicComponent from '../components/DynamicInterfaceComponent';
 import { containerStyle, leftPaneStyle, rightPaneStyle } from '../styles/indexStyles';
 import sampleDynamicComponent from '../../src/components/sampleDynamicComponent.json';
+import dotenv from 'dotenv';
+dotenv.config();
 
 const SplitScreen = () => {
 

@@ -1,6 +1,7 @@
 import { useState } from "react";
 import axios from 'axios';
 import TypingAnimation from "./TypingAnimation";
+import { propertyExtractor } from "../utils/propertyExtractor";
 
 export default function ChatBoxComponent() {
   const [inputValue, setInputValue] = useState('');
@@ -17,13 +18,15 @@ export default function ChatBoxComponent() {
     setInputValue('');
   }
 
-  const sendMessage = (message) => {
+  const sendMessage = (message: string) => {
     const url = '/api/chat';
 
     const data = {
       model: "gpt-3.5-turbo-0301",
       messages: [{ "role": "user", "content": message }]
     };
+
+    console.log("message: ", propertyExtractor(message));
 
     setIsLoading(true);
 
