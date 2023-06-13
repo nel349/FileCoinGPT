@@ -215,7 +215,7 @@ components:
   schemas:
     sendFunctionRequest:
       type: object
-      description: Request to send a transaction to a contract.
+      description: Request to send a a function request to a contract.
       required:
         - consumerAddress
         - subscriptionId
