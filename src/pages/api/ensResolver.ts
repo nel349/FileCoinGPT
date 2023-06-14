@@ -62,7 +62,7 @@ export default async function handler(req, res) {
 
 
                 console.log("message ENS Solve OK: ", message);
-                res.status(200).json({message});
+                res.status(200).json({message, url: ensResult.url});
             } catch (error) {
                 console.log("ERROR: ENS RESOLVE RESPONSE: ", error);
                 res.status(500).json({ message: "Something went wrong with the response" });

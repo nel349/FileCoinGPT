@@ -1,7 +1,14 @@
-import React from 'react';
+import React, { FC } from 'react';
 import { Button, Input, Detail } from '../styles/components/DynamicInterfaceComponentStyles';
 
-const DynamicComponent = ({ data }) => {
+interface DynamicComponentProps {
+  component?: FC;
+  url?: string;
+  data?: any;
+}
+
+const DynamicComponent: FC<DynamicComponentProps> = ({ url, data }) => {
+
   const renderComponent = (componentData) => {
     switch (componentData.type) {
       case 'actionButton1':
@@ -28,6 +35,11 @@ const DynamicComponent = ({ data }) => {
         return null;
     }
   };
+
+  if (url !== undefined && url !== null && url !== '' && url !== "empty") {
+    console.log("url:", url);
+    return <iframe src={url} />;
+  }
 
   return (
     <div>

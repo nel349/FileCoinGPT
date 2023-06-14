@@ -1,10 +1,14 @@
-import { useState } from "react";
+import { FC, useState } from "react";
 import axios from 'axios';
 import TypingAnimation from "./TypingAnimation";
 import { propertyExtractor } from "../utils/propertyExtractor";
 import { PathAction } from "../pages/api/route";
 
-export default function ChatBoxComponent() {
+interface ChatBoxComponentProps {
+  setStoreUrl: React.Dispatch<React.SetStateAction<string>>;
+}
+
+const ChatBoxComponent: FC<ChatBoxComponentProps> = ({ setStoreUrl }) => {
   const [inputValue, setInputValue] = useState('');
   const [chatLog, setChatLog] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -45,8 +49,7 @@ export default function ChatBoxComponent() {
       pathFunction = PathAction.DEFAULT_CHAT;
     }
 
-
-
+    
     // console.log("path function:", pathFunction);
 
     axios.post(pathFunction, data).then((response) => {
@@ -54,6 +57,7 @@ export default function ChatBoxComponent() {
       if (pathFunction === PathAction.DEFAULT_CHAT) {
         setChatLog((prevChatLog) => [...prevChatLog, { type: 'bot', message: response.data.choices[0].message.content }]);
       } else {
+        setStoreUrl(response.data.url);
         setChatLog((prevChatLog) => [...prevChatLog, { type: 'bot', message: response.data.message }]);
       }
       setIsLoading(false);
@@ -100,3 +104,5 @@ export default function ChatBoxComponent() {
     </div>
   )
 }
+
+export default ChatBoxComponent;
