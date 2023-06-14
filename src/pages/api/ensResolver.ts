@@ -33,16 +33,15 @@ export default async function handler(req, res) {
 
             const ensResult = {
                 address: address,
-                url: `https://app.ens.domains/${address}`,
+                url: `https://app.ens.domains/${ensName}`,
                 urlContents: `The contents of the url`,
                 summary: `This is the address of ${ensName}`,
-
             };
 
             try {
                 const parsedEnsResult = JSON.stringify(ensResult);
                 console.log("ensResult: ", parsedEnsResult);
-                const body = `Describe values of the following JSON response: ${parsedEnsResult}`;
+                const body = `Interpret this: ${parsedEnsResult}`;
 
                 const configuration = new Configuration({ apiKey: process.env.REACT_APP_OPENAI_API_KEY});
                 delete configuration.baseOptions.headers['User-Agent'];
@@ -63,7 +62,7 @@ export default async function handler(req, res) {
 
 
                 console.log("message ENS Solve OK: ", message);
-                res.status(200).json(message);
+                res.status(200).json({message});
             } catch (error) {
                 console.log("ERROR: ENS RESOLVE RESPONSE: ", error);
                 res.status(500).json({ message: "Something went wrong with the response" });

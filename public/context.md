@@ -48,7 +48,7 @@ url - The url linking to the ENS domains address
 urlContents - Contents inside the 'url'. This could be HTML, JSON, or any text.
 summary - short summary of the ENS name.
 
-This is an example of a JSON response:
+This is an example of our result:
 {
 	"address": "0x9584DD0D9bA9d81103020281B77EA23cAaC4e3A4",
 	"url": "https://app.ens.domains/nick.eth",
@@ -56,10 +56,7 @@ This is an example of a JSON response:
 	"summary": "This is the address of ensName"
 }
 
-Description: 
-- The ENS name resolves to the contract "0x9584DD0D9bA9d81103020281B77EA23cAaC4e3A4".
+This is an interpretation of our result: 
+- The ENS name resolves to the contract "0x9584DD0D9bA9d81103020281B77EA23cAaC4e3A4"
 - URL to ENS details: https://app.ens.domains/nick.eth
-- Content of nick.eth
-
-
 
