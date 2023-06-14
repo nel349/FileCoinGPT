@@ -6,10 +6,8 @@ export const propertyExtractor = async (question: string) => {
 
     console.log("APIKEY: ", process.env.REACT_APP_OPENAI_API_KEY);
 
-    const responseFetch = await fetch('/context.yaml');
+    const responseFetch = await fetch('/context.md');
     const context = await responseFetch.text();
-
-    // console.log("context: " + text);
 
     // OpenAI API
     const configuration = new Configuration({ apiKey: process.env.REACT_APP_OPENAI_API_KEY });
@@ -38,9 +36,11 @@ export const propertyExtractor = async (question: string) => {
     const jsonStartIndex = trimmedString.indexOf("{");
     const jsonEndIndex = trimmedString.lastIndexOf("}");
     const json = trimmedString.substring(jsonStartIndex, jsonEndIndex + 1);
+    const propertiesJSON = JSON.parse(json);
     console.log("choice: ", choices);
-    console.log("properties: ", JSON.parse(json));
+    console.log("properties: ", propertiesJSON);
     // console.log("property1 ", properties[0]);
+    return propertiesJSON;
 };
 
 function extractCodeBlocks(text: string) {

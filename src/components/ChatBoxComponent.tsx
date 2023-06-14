@@ -2,6 +2,7 @@ import { useState } from "react";
 import axios from 'axios';
 import TypingAnimation from "./TypingAnimation";
 import { propertyExtractor } from "../utils/propertyExtractor";
+import { PathAction } from "../pages/api/route";
 
 export default function ChatBoxComponent() {
   const [inputValue, setInputValue] = useState('');
@@ -18,21 +19,43 @@ export default function ChatBoxComponent() {
     setInputValue('');
   }
 
-  const sendMessage = (message: string) => {
-    const url = '/api/chat';
+  const sendMessage = async (message: string) => {
 
-    const data = {
+    setIsLoading(true); //start loading
+
+    let data = {
       model: "gpt-3.5-turbo-0301",
       messages: [{ "role": "user", "content": message }]
     };
 
-    console.log("message: ", propertyExtractor(message));
+    let properties;
+    let pathFunction: string = PathAction.DEFAULT_CHAT;
+    try {
+      properties = await propertyExtractor(message);
+    } catch (error) {
+      console.log(error);
+    }
+    
+    if (properties !== undefined) {
+      pathFunction = properties.pathFunction;
+      console.log("path function:", pathFunction);
+      data = properties;
+    }
+    else {
+      pathFunction = PathAction.DEFAULT_CHAT;
+    }
 
-    setIsLoading(true);
+    
 
-    axios.post(url, data).then((response) => {
+    // console.log("path function:", pathFunction);
+
+    axios.post(pathFunction, data).then((response) => {
       console.log(response);
-      setChatLog((prevChatLog) => [...prevChatLog, { type: 'bot', message: response.data.choices[0].message.content }])
+      if(pathFunction === PathAction.DEFAULT_CHAT) {
+        setChatLog((prevChatLog) => [...prevChatLog, { type: 'bot', message: response.data.choices[0].message.content }]);
+      } else {
+        setChatLog((prevChatLog) => [...prevChatLog, { type: 'bot', message: JSON.stringify(response.data) }]);
+      }
       setIsLoading(false);
     }).catch((error) => {
       setIsLoading(false);
