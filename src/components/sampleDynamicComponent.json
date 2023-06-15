@@ -27,6 +27,12 @@
 			"type": "detailType1",
 			"label": "label1",
 			"text": "text1"
+        },
+		{
+			"name": "VideoName1",
+			"type": "VideoType1",
+			"label": "Videolabel1",
+			"text": "text1"
         }
 	]
 }

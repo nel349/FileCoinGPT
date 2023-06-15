@@ -1,6 +1,19 @@
 import '../styles/globals.css';
-import React from 'react';
+import '../styles/components/DynamicInterfaceComponentStyles.css';
 
-export default function App({ Component, pageProps }: { Component: React.ElementType, pageProps: any }) {
-  return <div className="bg-gray-800"><Component {...pageProps} /></div>;
+import React from 'react';
+export default class App extends React.Component<{ Component: React.ElementType, pageProps: any }> {
+
+  componentDidMount() {
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', function() {
+        navigator.serviceWorker.register('/saturn-sw.js');
+      });
+    }
+  }
+
+  render() {
+    const { Component, pageProps } = this.props;
+    return <div className="bg-gray-800"><Component {...pageProps} /></div>;
+  }
 }

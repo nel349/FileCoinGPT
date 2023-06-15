@@ -1,6 +1,5 @@
 import React, { FC } from 'react';
 import { Button, Input, Detail } from '../styles/components/DynamicInterfaceComponentStyles';
-
 interface DynamicComponentProps {
   component?: FC;
   url?: string;
@@ -31,6 +30,16 @@ const DynamicComponent: FC<DynamicComponentProps> = ({ url, data }) => {
         );
       case 'detailType1':
         return <Detail>{componentData.label}:{componentData.text}</Detail>;
+      case 'VideoType1':
+        return (
+          <div
+            dangerouslySetInnerHTML={{ __html: `
+              <video id="bunny-video" className="video-js vjs-16-9 vjs-custom-size" data-setup='{}' controls>
+                <source src="/ipfs/QmS29VtmK7Ax6TMmMwbwqtuKSGRJTLJAmHMW83qGvBBxhV/bunny.m3u8" type="application/x-mpegURL" />
+              </video>
+            `}}
+          />
+        );
       default:
         return null;
     }
