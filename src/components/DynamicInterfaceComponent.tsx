@@ -1,5 +1,6 @@
 import React, { FC } from 'react';
 import { Button, Input, Detail } from '../styles/components/DynamicInterfaceComponentStyles';
+
 interface DynamicComponentProps {
   component?: FC;
   url?: string;
@@ -33,13 +34,26 @@ const DynamicComponent: FC<DynamicComponentProps> = ({ url, data }) => {
       case 'VideoType1':
         return (
           <div
-            dangerouslySetInnerHTML={{ __html: `
-              <video id="bunny-video" className="video-js vjs-16-9" data-setup='{}' controls controls width="640" height="360">
-                <source src="/ipfs/QmS29VtmK7Ax6TMmMwbwqtuKSGRJTLJAmHMW83qGvBBxhV/bunny.m3u8" type="application/x-mpegURL" />
-              </video>
-            `}}
+            // dangerouslySetInnerHTML={{ __html: `
+            //   <video id="bunny-video" className="video-js vjs-16-9" data-setup='{}' controls controls width="640" height="360">
+            //     <source src="/ipfs/QmS29VtmK7Ax6TMmMwbwqtuKSGRJTLJAmHMW83qGvBBxhV/bunny.m3u8" type="application/x-mpegURL" />
+            //   </video>
+            // `}}
           />
         );
+        case 'ImageType1':
+          return (
+            <div>
+              <img src={componentData.source} alt={componentData.alt} width={componentData.width} height={componentData.height} />
+            </div>
+          );
+        case 'VideoType2':
+          return (
+            <video id="bunny-video" className="video-js vjs-16-9" data-setup='{}' controls width="640" height="360">
+              <source src={componentData.source} />
+            </video>
+            
+          );
       default:
         return null;
     }

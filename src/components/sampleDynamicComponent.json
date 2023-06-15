@@ -32,7 +32,21 @@
 			"name": "VideoName1",
 			"type": "VideoType1",
 			"label": "Videolabel1",
-			"text": "text1"
+			"text": "VideoText1"
+        },
+		{
+			"name": "ImageName1",
+			"type": "ImageType1",
+			"label": "Imagelabel1",
+			"text": "Imagetext1",
+			"source": "ipfs/QmQqzMTavQgT4f4T5v6PWBp7XNKtoPmC9jvn12WPT3gkSE"
+		},
+		{
+			"name": "VideoName2",
+			"type": "VideoType2",
+			"label": "Videolabel2",
+			"text": "VideoText2",
+			"source": "/ipfs/QmS29VtmK7Ax6TMmMwbwqtuKSGRJTLJAmHMW83qGvBBxhV/bunny.m3u8"
         }
 	]
 }

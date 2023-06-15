@@ -4,6 +4,7 @@ import { containerStyle, leftPaneStyle, rightPaneStyle } from '../styles/indexSt
 import sampleDynamicComponent from '../../src/components/sampleDynamicComponent.json';
 import dotenv from 'dotenv';
 import { SetStateAction, useState } from 'react';
+import DynamicComponentWithNoSSR from '../components/DynamicComponentWithNoSSR';
 dotenv.config();
 
 const SplitScreen = () => {
@@ -20,7 +21,7 @@ const SplitScreen = () => {
         <ChatBoxComponent setStoreUrl={storeUrl} />
       </div>
       <div style={rightPaneStyle}>
-        <DynamicComponent data={sampleDynamicComponent} url={stateUrl} />
+        <DynamicComponentWithNoSSR data={sampleDynamicComponent} url={stateUrl} />
       </div>
     </div>
   );
