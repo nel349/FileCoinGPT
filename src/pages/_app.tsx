@@ -1,5 +1,4 @@
 import '../styles/globals.css';
-import '../styles/components/DynamicInterfaceComponentStyles.css';
 
 import React from 'react';
 export default class App extends React.Component<{ Component: React.ElementType, pageProps: any }> {

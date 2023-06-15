@@ -34,7 +34,7 @@ const DynamicComponent: FC<DynamicComponentProps> = ({ url, data }) => {
         return (
           <div
             dangerouslySetInnerHTML={{ __html: `
-              <video id="bunny-video" className="video-js vjs-16-9 vjs-custom-size" data-setup='{}' controls>
+              <video id="bunny-video" className="video-js vjs-16-9" data-setup='{}' controls controls width="640" height="360">
                 <source src="/ipfs/QmS29VtmK7Ax6TMmMwbwqtuKSGRJTLJAmHMW83qGvBBxhV/bunny.m3u8" type="application/x-mpegURL" />
               </video>
             `}}
