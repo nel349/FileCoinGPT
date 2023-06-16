@@ -60,3 +60,12 @@ This is an interpretation of our result:
 - The ENS name resolves to the contract "0x9584DD0D9bA9d81103020281B77EA23cAaC4e3A4"
 - URL to ENS details: https://app.ens.domains/nick.eth
 
+## Get uploads
+1. Question: Upload details from address "0xc44E801873978EC0836A40C5BA9e5aC4204591f8"
+
+  ````
+{
+	"address": "0xc44E801873978EC0836A40C5BA9e5aC4204591f8"
+  "pathFunction": "/api/getUploads"
+}
+  ````
