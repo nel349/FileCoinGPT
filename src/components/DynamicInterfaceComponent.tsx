@@ -1,5 +1,6 @@
 import React, { FC } from 'react';
 import { Button, Input, Detail } from '../styles/components/DynamicInterfaceComponentStyles';
+import LighthouseUpload from './UploadLighthouseComponent';
 
 interface DynamicComponentProps {
   component?: FC;
@@ -69,6 +70,7 @@ const DynamicComponent: FC<DynamicComponentProps> = ({ url, data }) => {
       {data.section1.map((componentData) => (
         <div key={componentData.name}>{renderComponent(componentData)}</div>
       ))}
+      <LighthouseUpload />
     </div>
   );
 };

@@ -1,0 +1,44 @@
+import React from "react";
+import lighthouse from '@lighthouse-web3/sdk';
+
+function LighthouseUpload() {
+
+  const progressCallback = (progressData: any) => {
+    const total = progressData?.total as number;
+    const uploaded = progressData?.uploaded as number;
+    const percentageDone = 100 - (total / uploaded);
+    console.log(percentageDone);
+  };
+
+  const uploadFile = async(file) =>{
+    // Push file to lighthouse node
+    // Both file and folder are supported by upload function
+    try {
+        const output = await lighthouse.upload(file, process.env.LIGHTHOUSE_API_KEY, progressCallback);
+        console.log('File Status:', output);
+        console.log('Visit at https://gateway.lighthouse.storage/ipfs/' + output.data.Hash);
+    } catch (error) {
+        console.log('Error:', error);
+    }
+
+    /*
+      output:
+        data: {
+          Name: "filename.txt",
+          Size: 88000,
+          Hash: "QmWNmn2gr4ZihNPqaC5oTeePsHvFtkWNpjY3cD6Fd5am1w"
+        }
+      Note: Hash in response is CID.
+    */
+
+      
+  }
+
+  return (
+    <div className="App">
+      <input onChange={e=>uploadFile(e.target.files)} type="file" />
+    </div>
+  );
+}
+
+export default LighthouseUpload;
