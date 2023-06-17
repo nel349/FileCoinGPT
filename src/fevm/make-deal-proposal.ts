@@ -3,6 +3,7 @@ import { currentChain, publicClient, walletClient } from '../wallet/clients'
 import { Account, Address, ContractFunctionResult, TransactionReceipt, getContract, parseAbi } from 'viem'
 import { privateKeyToAccount, publicKeyToAddress } from 'viem/accounts'
 import { DealClientContract } from './contracts'
+import { Log, ethers } from 'ethers'
 
 export interface DealProposalParams {
     contract: string,
@@ -84,35 +85,22 @@ export async function makeDealProposal(params: DealProposalParams) {
     });
 
     let makeDealProposalTxReceipt: TransactionReceipt;
-    let proposalId: string;
-
-    publicClient.watchContractEvent({
-        address: contractAddr as Address,
-        abi: DealClientContract.abi,
-        onLogs: logs => console.log(logs)
-    });
-
-
     try {
         const makeDealProposalTx = await registryWriteContract.write.makeDealProposal([DealRequestStruct]);
 
         makeDealProposalTxReceipt = await publicClient.waitForTransactionReceipt(
             { hash: makeDealProposalTx }
         );
-
         console.log(`Transaction hash: ${makeDealProposalTxReceipt.transactionHash}`);
 
+        const proposalIdResponse = (await fetchProposalId(makeDealProposalTxReceipt.transactionHash));
 
-        while (!proposalId) {
-            await new Promise(resolve => setTimeout(resolve, 30000)); // wait for 30 seconds
-        }
-
-        console.log(`Data is: ${makeDealProposalTx}`)
+        console.log(`Proposal id is: ${proposalIdResponse.proposalId}`)
 
         return {
-            hash: makeDealProposalTxReceipt.transactionHash
+            hash: makeDealProposalTxReceipt.transactionHash,
+            message: proposalIdResponse.message
         }
-        // const event = transactionReceipt.events[0].topics[1]
 
     } catch (error) {
         console.log("Error making deal proposal: ", error);
@@ -121,3 +109,31 @@ export async function makeDealProposal(params: DealProposalParams) {
         }
     }
 }
+
+interface TransactionReceiptWithTopics extends ethers.TransactionReceipt {
+    logs: ethers.Log[];
+  }
+
+
+export async function fetchProposalId(txHash: Address) {
+    console.log(`Fetching receipt logs for transaction ${txHash}`);
+  
+  
+    const receipt: TransactionReceiptWithTopics = await publicClient.waitForTransactionReceipt(
+        { hash: txHash}
+    );
+
+    const proposalId = receipt.logs[0].topics[1];
+    if (!proposalId)
+        return {
+            message: `Error: fetching propsal id`
+        }
+
+    console.log(`Proposal id is: ${proposalId}`);
+  
+    return {
+        proposalId: proposalId,
+        hash: txHash,
+        message: `Success! Proposal id is: ${proposalId}`
+    }
+  }

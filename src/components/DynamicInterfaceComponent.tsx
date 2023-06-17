@@ -4,7 +4,7 @@ import LighthouseUpload from './UploadLighthouseComponent';
 import { getApiKey } from '../wallet/getLighthouseApiKey';
 import FileList from './FileListComponent';
 import DealProposalForm from './DealProposalFormComponent';
-import { DealProposalParams, makeDealProposal } from '../fevm/make-deal-proposal';
+import { DealProposalParams, fetchReceiptLogs, makeDealProposal } from '../fevm/make-deal-proposal';
 
 interface DynamicComponentProps {
   component?: FC;
@@ -85,7 +85,7 @@ const DynamicComponent: FC<DynamicComponentProps> = ({ url, data }) => {
             <div>
               < DealProposalForm onSubmit={makeDealProposal}/>
             </div>
-          );
+          );  
       default:
         return null;
     }
@@ -102,6 +102,7 @@ const DynamicComponent: FC<DynamicComponentProps> = ({ url, data }) => {
         <div key={componentData.name}>{renderComponent(componentData)}</div>
       ))}
       <LighthouseUpload apiKey={apiKey}/>
+      <button onClick={() => fetchReceiptLogs("0xe702ecdc0a04e286e62f122778c034e4af7fd6beaf0e00754fa616fb92ec1447")}>Button Fetch Logs</button>
     </div>
   );
 };
