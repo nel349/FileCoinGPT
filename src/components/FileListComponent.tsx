@@ -1,5 +1,6 @@
 import axios from 'axios';
 import React from 'react';
+import styled from 'styled-components';
 
 interface File {
   fileName: string;
@@ -11,37 +12,67 @@ interface Props {
   apiKey: string;
 }
 
+const List = styled.ul`
+  list-style: none;
+  margin: 0;
+  padding: 0;
+`;
+
+const ListItem = styled.li`
+  display: flex;
+  align-items: center;
+  padding: 16px;
+  border-bottom: 1px solid #e5e5e5;
+`;
+
+const FileName = styled.p`
+  font-size: 16px;
+  font-weight: bold;
+  margin: 0;
+`;
+
+const Id = styled.p`
+  font-size: 14px;
+  margin: 0;
+`;
+
+const DownloadLink = styled.a`
+  font-size: 14px;
+  margin: 0;
+`;
+
 export const FileList: React.FC<Props> = ({ apiKey }) => {
+  const [files, setFiles] = React.useState<File[]>([]);
 
-    const [files, setFiles] = React.useState<File[]>([]);
-
-    React.useEffect(() => {
-        let isMounted = true;
-        (async () => {
-          try {
-            const response = await axios.post(`http://localhost:3333/api/viewFiles`, { apiKey });
-            if (isMounted) {
-              setFiles(response.data.files);
-            }
-          } catch (error) {
-            console.error(error);
-          }
-        })();
-        return () => {
-          isMounted = false;
-        };
-      }, [apiKey]);
+  React.useEffect(() => {
+    let isMounted = true;
+    (async () => {
+      try {
+        const response = await axios.post(`http://localhost:3333/api/viewFiles`, { apiKey });
+        if (isMounted) {
+          setFiles(response.data.files);
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    })();
+    return () => {
+      isMounted = false;
+    };
+  }, [apiKey]);
 
   return (
-    <div>
+    <List>
       {files.map((file) => (
-        <div key={file.id}>
-          <p>File Name: {file.fileName}</p>
-          <p>ID: {file.id}</p>
-          <p>Download Link: <a href={file.downloadLink}>{file.downloadLink}</a></p>
-        </div>
+        <ListItem key={file.id}>
+          <div>
+            <FileName>{file.fileName}</FileName>
+            <Id>ID: {file.id}</Id>
+          </div>
+          <DownloadLink href={file.downloadLink}>Download</DownloadLink>
+        </ListItem>
       ))}
-    </div>
+    </List>
   );
 };
 
