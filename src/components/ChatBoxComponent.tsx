@@ -2,7 +2,7 @@ import { FC, useState } from "react";
 import axios from 'axios';
 import TypingAnimation from "./TypingAnimation";
 import { propertyExtractor } from "../utils/propertyExtractor";
-import { PathAction, validatePathResolver } from "../pages/api/route";
+import { PathAction, isValidFunctionPath, validatePathResolver } from "../pages/api/route";
 
 interface ChatBoxComponentProps {
   setStoreUrl: React.Dispatch<React.SetStateAction<string>>;
@@ -40,7 +40,7 @@ const ChatBoxComponent: FC<ChatBoxComponentProps> = ({ setStoreUrl }) => {
       console.log(error);
     }
 
-    if (properties !== undefined) {
+    if (properties !== undefined && isValidFunctionPath(properties.pathFunction)) {
       pathFunction = validatePathResolver(properties.pathFunction);
       console.log("path function:", pathFunction);
       data = properties;

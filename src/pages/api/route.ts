@@ -9,3 +9,7 @@ export enum PathAction {
 export const validatePathResolver = (action: PathAction) => {
     return Object.values(PathAction).includes(action) ? action : PathAction.DEFAULT_CHAT;
 }
+
+export const isValidFunctionPath = (action: PathAction) => {
+    return Object.values(PathAction).includes(action);
+}
