@@ -3,6 +3,8 @@ import { Button, Input, Detail } from '../styles/components/DynamicInterfaceComp
 import LighthouseUpload from './UploadLighthouseComponent';
 import { getApiKey } from '../wallet/getLighthouseApiKey';
 import FileList from './FileListComponent';
+import DealProposalForm from './DealProposalFormComponent';
+import { DealProposalParams, makeDealProposal } from '../fevm/make-deal-proposal';
 
 interface DynamicComponentProps {
   component?: FC;
@@ -76,6 +78,12 @@ const DynamicComponent: FC<DynamicComponentProps> = ({ url, data }) => {
           return (
             <div>
               <FileList apiKey={apiKey}/>
+            </div>
+          );
+        case "makeDealComponentType":
+          return (
+            <div>
+              < DealProposalForm onSubmit={makeDealProposal}/>
             </div>
           );
       default:

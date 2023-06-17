@@ -2,7 +2,7 @@ import { createWalletClient, custom } from "viem";
 import { createPublicClient, http } from "viem";
 import { filecoinCalibration } from "viem/chains";
 
-const currentChain = filecoinCalibration;
+export const currentChain = filecoinCalibration;
 
 export const publicClient = createPublicClient({
     chain: currentChain,
