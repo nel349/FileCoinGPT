@@ -1,44 +1,54 @@
-import React from "react";
-import lighthouse from '@lighthouse-web3/sdk';
+import React, { useState } from "react";
+import axios from "axios";
+import { PathAction } from "../pages/api/route";
 
-function LighthouseUpload() {
+interface Props {
+    apiKey: string;
+}
 
-  const progressCallback = (progressData: any) => {
-    const total = progressData?.total as number;
-    const uploaded = progressData?.uploaded as number;
-    const percentageDone = 100 - (total / uploaded);
-    console.log(percentageDone);
-  };
+function LighthouseUpload({ apiKey }: Props) {
+    const [uploadState, setUploadState] = useState<string>("");
+    const [pendingUpload, setPendingUpload] = useState<boolean>(false);
 
-  const uploadFile = async(file) =>{
-    // Push file to lighthouse node
-    // Both file and folder are supported by upload function
-    try {
-        const output = await lighthouse.upload(file, process.env.LIGHTHOUSE_API_KEY, progressCallback);
-        console.log('File Status:', output);
-        console.log('Visit at https://gateway.lighthouse.storage/ipfs/' + output.data.Hash);
-    } catch (error) {
-        console.log('Error:', error);
+    const generateCAR = async (file: File, apiKey: string) => {
+        // Push file to lighthouse node
+        // Both file and folder are supported by upload function
+        try {
+            // Set up FormData to hold the file
+            const formData = new FormData();
+            formData.append('file', file);
+            formData.append('apiKey', process.env.LIGHTHOUSE_API_KEY_DEPOT);
+            
+            // Send a POST request to the endpoint
+            setPendingUpload(true);
+            const response = await axios.post(PathAction.GENERATE_CAR, formData);
+            setPendingUpload(false);
+            
+            // Handle the response
+            if (response.status == 200 ) {
+                setUploadState("Upload successful");
+            } else {
+                setUploadState("Upload failed");
+            }
+
+        } catch (error) {
+            console.log('LighthouseUpload Component Error:', error);
+            setUploadState("Upload failed");
+            setPendingUpload(false);
+        }
     }
 
-    /*
-      output:
-        data: {
-          Name: "filename.txt",
-          Size: 88000,
-          Hash: "QmWNmn2gr4ZihNPqaC5oTeePsHvFtkWNpjY3cD6Fd5am1w"
-        }
-      Note: Hash in response is CID.
-    */
-
-      
-  }
-
-  return (
-    <div className="App">
-      <input onChange={e=>uploadFile(e.target.files)} type="file" />
-    </div>
-  );
+    return (
+        <div className="App">
+            <input onChange={e => {
+                console.log("Files", e.target.files);
+                const file = e.target.files[0];
+                generateCAR(file, apiKey)
+            }} type="file" />
+            {pendingUpload && <p>Uploading...</p>}
+            {uploadState && <p>{uploadState}</p>}
+        </div>
+    );
 }
 
 export default LighthouseUpload;

@@ -1,6 +1,7 @@
-import React, { FC } from 'react';
+import React, { FC, useState } from 'react';
 import { Button, Input, Detail } from '../styles/components/DynamicInterfaceComponentStyles';
 import LighthouseUpload from './UploadLighthouseComponent';
+import { getApiKey } from '../wallet/getLighthouseApiKey';
 
 interface DynamicComponentProps {
   component?: FC;
@@ -9,6 +10,8 @@ interface DynamicComponentProps {
 }
 
 const DynamicComponent: FC<DynamicComponentProps> = ({ url, data }) => {
+
+  const [apiKey, setApiKey] = useState('');
 
   const renderComponent = (componentData) => {
     switch (componentData.type) {
@@ -55,6 +58,19 @@ const DynamicComponent: FC<DynamicComponentProps> = ({ url, data }) => {
             </video>
             
           );
+        case "ApiKeyButton":
+          return (
+            <div>
+              <Button onClick={async () =>
+                {
+                  console.log("fetching lighthouse api key...");
+                  setApiKey(await getApiKey());
+                }
+              }>
+                {componentData.label}
+              </Button>
+            </div>
+          );
       default:
         return null;
     }
@@ -70,7 +86,7 @@ const DynamicComponent: FC<DynamicComponentProps> = ({ url, data }) => {
       {data.section1.map((componentData) => (
         <div key={componentData.name}>{renderComponent(componentData)}</div>
       ))}
-      <LighthouseUpload />
+      <LighthouseUpload apiKey={apiKey}/>
     </div>
   );
 };

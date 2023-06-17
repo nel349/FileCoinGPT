@@ -1,8 +1,9 @@
 export enum PathAction {
     RESOLVE_ENS = '/api/ensResolver',
     DEFAULT_CHAT = '/api/chat',
+    GENERATE_CAR = 'http://localhost:3333/api/generateCar',
     GET_UPLOADS = '/api/getUploads',
-    CREATE_PRODUCT = 'create_product',
+    VIEW_FILES = 'http://localhost:3333/api/viewFiles',
 }
 
 export const validatePathResolver = (action: PathAction) => {
