@@ -1,9 +1,7 @@
 
 
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
-import axios from 'axios';
 import lighthouse from '@lighthouse-web3/sdk'
-import { getApiKey } from '../../wallet/getLighthouseApiKey';
 
 export default async function handler(req, res) {
     const referer = req.headers.referer || req.headers.referrer; // get the referer from the request headers

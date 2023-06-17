@@ -2,6 +2,7 @@ import React, { FC, useState } from 'react';
 import { Button, Input, Detail } from '../styles/components/DynamicInterfaceComponentStyles';
 import LighthouseUpload from './UploadLighthouseComponent';
 import { getApiKey } from '../wallet/getLighthouseApiKey';
+import FileList from './FileListComponent';
 
 interface DynamicComponentProps {
   component?: FC;
@@ -69,6 +70,12 @@ const DynamicComponent: FC<DynamicComponentProps> = ({ url, data }) => {
               }>
                 {componentData.label}
               </Button>
+            </div>
+          );
+        case "listType1":
+          return (
+            <div>
+              <FileList apiKey={apiKey}/>
             </div>
           );
       default:

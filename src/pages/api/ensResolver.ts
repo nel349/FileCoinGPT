@@ -1,5 +1,4 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
-import axios from 'axios';
 import { ethers } from 'ethers';
 import { Configuration, OpenAIApi } from 'openai';
 import fs from 'fs';

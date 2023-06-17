@@ -53,6 +53,10 @@
 			"type": "ApiKeyButton",
 			"label": "ApiKeyButton",
 			"text": "ApiKeyButton"
+		},
+		{
+			"name": "list1",
+			"type": "listType1"
 		}
 	]
 }
