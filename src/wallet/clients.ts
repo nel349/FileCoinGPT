@@ -1,8 +1,8 @@
-import { Chain, createWalletClient, custom } from "viem";
+import { createWalletClient, custom } from "viem";
 import { createPublicClient, http } from "viem";
-import { sepolia } from "viem/chains";
+import { filecoinCalibration } from "viem/chains";
 
-const currentChain = sepolia as Chain;
+const currentChain = filecoinCalibration;
 
 export const publicClient = createPublicClient({
     chain: currentChain,
