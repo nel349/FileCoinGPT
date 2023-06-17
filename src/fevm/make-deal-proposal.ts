@@ -1,6 +1,7 @@
 import CID from 'cids'
 import { currentChain, publicClient, walletClient } from '../wallet/clients'
-import { Address, TransactionReceipt, getContract } from 'viem'
+import { Account, Address, ContractFunctionResult, TransactionReceipt, getContract, parseAbi } from 'viem'
+import { privateKeyToAccount, publicKeyToAddress } from 'viem/accounts'
 import { DealClientContract } from './contracts'
 
 export interface DealProposalParams {
@@ -34,7 +35,7 @@ export async function makeDealProposal(params: DealProposalParams) {
         storagePricePerEpoch: 0,
         providerCollateral: 0,
         clientCollateral: 0,
-        extraParamsVersion: "1",   
+        extraParamsVersion: "1",
         locationRef: "https://data-depot.lighthouse.storage/api/download/download_car?fileId=c52f62f1-dd4d-4f02-8352-2af72442818d.car",
         carSize: 2061,
         skipIpniAnnounce: false,
@@ -74,11 +75,12 @@ export async function makeDealProposal(params: DealProposalParams) {
 
     console.log("Making deal proposal on network", currentChain.name);
 
+    const wallet = await walletClient()
 
     const registryWriteContract = getContract({
         address: contractAddr as Address,
         abi: DealClientContract.abi,
-        walletClient: await walletClient(),
+        walletClient: wallet,
     });
 
     let makeDealProposalTxReceipt: TransactionReceipt;
@@ -87,12 +89,7 @@ export async function makeDealProposal(params: DealProposalParams) {
     publicClient.watchContractEvent({
         address: contractAddr as Address,
         abi: DealClientContract.abi,
-        eventName: 'DealProposalCreate',
-        onLogs: logs => {
-            // proposalId = (logs[0] as any).args.id.toString();
-            console.log("DealProposalCreate event logs: ", logs)
-            console.log(`Complete! Event Emitted. ProposalId is: ${proposalId}`)
-        }
+        onLogs: logs => console.log(logs)
     });
 
 
@@ -107,8 +104,10 @@ export async function makeDealProposal(params: DealProposalParams) {
 
 
         while (!proposalId) {
-            await new Promise(resolve => setTimeout(resolve, 10000)); // wait for 10 seconds
+            await new Promise(resolve => setTimeout(resolve, 30000)); // wait for 30 seconds
         }
+
+        console.log(`Data is: ${makeDealProposalTx}`)
 
         return {
             hash: makeDealProposalTxReceipt.transactionHash
