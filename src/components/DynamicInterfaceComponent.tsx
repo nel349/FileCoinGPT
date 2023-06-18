@@ -4,7 +4,7 @@ import LighthouseUpload from './UploadLighthouseComponent';
 import { getApiKey } from '../wallet/getLighthouseApiKey';
 import FileList from './FileListComponent';
 import DealProposalForm from './DealProposalFormComponent';
-import { DealProposalParams, makeDealProposal } from '../fevm/make-deal-proposal';
+import { makeDealProposal } from '../fevm/make-deal-proposal';
 import { fetchDealProposal } from '../fevm/get-deal-proposal';
 import { Address } from 'viem';
 
@@ -17,7 +17,6 @@ interface DynamicComponentProps {
 const DynamicComponent: FC<DynamicComponentProps> = ({ url, data }) => {
 
   const [apiKey, setApiKey] = useState('');
-
   const [proposalId, setProposalId] = useState("");
   const [smartContract, setSmartContract] = useState("");
 
@@ -31,10 +30,11 @@ const DynamicComponent: FC<DynamicComponentProps> = ({ url, data }) => {
         );
       case 'actionButton2':
         return (
-          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginBottom: '16px' }}>
             <Input
               type="text"
               placeholder={componentData.inputTextField.placeholder}
+              style={{ marginBottom: '8px' }}
             />
             <Button onClick={() => console.log(componentData.action)}>
               {componentData.label}
@@ -42,69 +42,59 @@ const DynamicComponent: FC<DynamicComponentProps> = ({ url, data }) => {
           </div>
         );
       case 'detailType1':
-        return <Detail>{componentData.label}:{componentData.text}</Detail>;
-      case 'VideoType1':
+        return <Detail>{componentData.label}: {componentData.text}</Detail>;
+      case 'ImageType1':
         return (
-          <div
-            // dangerouslySetInnerHTML={{ __html: `
-            //   <video id="bunny-video" className="video-js vjs-16-9" data-setup='{}' controls controls width="640" height="360">
-            //     <source src="/ipfs/QmS29VtmK7Ax6TMmMwbwqtuKSGRJTLJAmHMW83qGvBBxhV/bunny.m3u8" type="application/x-mpegURL" />
-            //   </video>
-            // `}}
-          />
+          <div style={{ marginBottom: '16px' }}>
+            <img src={componentData.source} alt={componentData.alt} width={componentData.width} height={componentData.height} />
+          </div>
         );
-        case 'ImageType1':
-          return (
-            <div>
-              <img src={componentData.source} alt={componentData.alt} width={componentData.width} height={componentData.height} />
-            </div>
-          );
-        case 'VideoType2':
-          return (
+      case 'VideoType2':
+        return (
+          <div>
             <video id="bunny-video" className="video-js vjs-16-9" data-setup='{}' controls width="640" height="360">
               <source src={componentData.source} />
             </video>
-            
-          );
-        case "ApiKeyButton":
-          return (
-            <div>
-              <Button onClick={async () =>
-                {
-                  console.log("fetching lighthouse api key...");
-                  setApiKey(await getApiKey());
-                }
-              }>
-                {componentData.label}
-              </Button>
+          </div>
+        );
+      case "ApiKeyButton":
+        return (
+          <div style={{ marginBottom: '16px' }}>
+            <Button onClick={async () => {
+              console.log("fetching lighthouse api key...");
+              setApiKey(await getApiKey());
+            }
+            }>
+              {componentData.label}
+            </Button>
+          </div>
+        );
+      case "listType1":
+        return (
+          <div style={{ marginBottom: '16px' }}>
+            <FileList apiKey={apiKey} />
+          </div>
+        );
+      case "makeDealComponentType":
+        return (
+          <div style={{ marginBottom: '16px' }}>
+            <DealProposalForm onSubmit={makeDealProposal} />
+          </div>
+        );
+      case "GetDealProposalTypeButton":
+        return (
+          <div style={{ marginBottom: '16px' }}>
+            <div style={{ marginBottom: '8px' }}>
+              <label htmlFor="proposalId">Proposal ID:</label>
+              <input type="text" id="proposalId" value={proposalId} onChange={(e) => setProposalId(e.target.value)} />
             </div>
-          );
-        case "listType1":
-          return (
-            <div>
-              <FileList apiKey={apiKey}/>
+            <div style={{ marginBottom: '8px' }}>
+              <label htmlFor="smartContract">Smart Contract:</label>
+              <input type="text" id="smartContract" value={smartContract} onChange={(e) => setSmartContract(e.target.value)} />
             </div>
-          );
-        case "makeDealComponentType":
-          return (
-            <div>
-              < DealProposalForm onSubmit={makeDealProposal}/>
-            </div>
-          ); 
-        case "GetDealProposalTypeButton":
-          return (
-                <div>
-                  <div>
-                    <label htmlFor="proposalId">Proposal ID:</label>
-                    <input type="text" id="proposalId" value={proposalId} onChange={(e) => setProposalId(e.target.value)} />
-                  </div>
-                  <div>
-                    <label htmlFor="smartContract">Smart Contract:</label>
-                    <input type="text" id="smartContract" value={smartContract} onChange={(e) => setSmartContract(e.target.value)} />
-                  </div>
-                  <button onClick={() => fetchDealProposal(proposalId, smartContract as Address)}> Get Deal Proposal</button>
-                </div>
-          ); 
+            <Button onClick={() => fetchDealProposal(proposalId, smartContract as Address)}>Get Deal Proposal</Button>
+          </div>
+        );
       default:
         return null;
     }
@@ -120,7 +110,7 @@ const DynamicComponent: FC<DynamicComponentProps> = ({ url, data }) => {
       {data.section1.map((componentData) => (
         <div key={componentData.name}>{renderComponent(componentData)}</div>
       ))}
-      <LighthouseUpload apiKey={apiKey}/>
+      <LighthouseUpload apiKey={apiKey} style={{ marginBottom: '16px' }} />
     </div>
   );
 };

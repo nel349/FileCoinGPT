@@ -4,6 +4,7 @@ import { PathAction } from "../pages/api/route";
 
 interface Props {
     apiKey: string;
+    style?: React.CSSProperties;
 }
 
 function LighthouseUpload({ apiKey }: Props) {
@@ -17,7 +18,7 @@ function LighthouseUpload({ apiKey }: Props) {
             // Set up FormData to hold the file
             const formData = new FormData();
             formData.append('file', file);
-            formData.append('apiKey', process.env.LIGHTHOUSE_API_KEY_DEPOT);
+            formData.append('apiKey', process.env.LIGHTHOUSE_API_KEY_DEPOT ?? "");
             
             // Send a POST request to the endpoint
             setPendingUpload(true);
@@ -42,8 +43,10 @@ function LighthouseUpload({ apiKey }: Props) {
         <div className="App">
             <input onChange={e => {
                 console.log("Files", e.target.files);
-                const file = e.target.files[0];
-                generateCAR(file, apiKey)
+                const file = e.target.files?.[0];
+                if (file) {
+                  generateCAR(file, apiKey);
+                }
             }} type="file" />
             {pendingUpload && <p>Uploading...</p>}
             {uploadState && <p>{uploadState}</p>}
