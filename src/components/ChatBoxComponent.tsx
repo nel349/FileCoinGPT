@@ -4,6 +4,7 @@ import TypingAnimation from "./TypingAnimation";
 import { propertyExtractor } from "../utils/propertyExtractor";
 import { PathAction, isValidFunctionPath, validatePathResolver } from "../pages/api/route";
 import { MyContext } from "../pages";
+import styles from "./ChatBoxComponent.module.css";
 
 interface ChatBoxComponentProps {
   setStoreUrl: React.Dispatch<React.SetStateAction<string>>;
@@ -166,12 +167,12 @@ const ChatBoxComponent: FC<ChatBoxComponentProps> = ({ setStoreUrl }) => {
   };
 
   return (
-    <div className="container mx-auto" style={{ backgroundColor: "#f5f5f5" }}>
+    <div className={styles["container"]}>
       <div className="flex flex-col fit-screen">
         <h1
           className="text-center py-3 font-bold text-6xl"
           style={{
-            backgroundImage: "linear-gradient(to right, #e0dede, #d3d3d3)",
+            backgroundImage: "linear-gradient(to right, #e0dede, #9c1019)",
             WebkitBackgroundClip: "text",
             WebkitTextFillColor: "transparent",
             backgroundSize: "cover",
