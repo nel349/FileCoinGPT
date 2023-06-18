@@ -60,6 +60,10 @@
 		{
 			"name": "makeDealProposal1",
 			"type": "makeDealComponentType"
+		},
+		{
+			"name": "getDealProposal1",
+			"type": "GetDealProposalTypeButton"
 		}
 	]
 }
