@@ -92,3 +92,13 @@ Question: Can you help me send a deal proposal?
   "pathFunction": "/api/makeDealProposal"
 }
   ````
+
+## Playing media IPFS.
+Ask chatgpt to play a media file for you. Play media from IPFS cid location. Using Saturn
+1. Request: Can you play the following media file with cid QmS29VtmK7Ax6TMmMwbwqtuKSGRJTLJAmHMW83qGvBBxhV?
+Question: Can I see what in the location with cid?
+  ````
+{
+  "pathFunction": "/api/playMedia"
+}
+  ````

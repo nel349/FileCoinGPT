@@ -7,6 +7,7 @@ import { MyContext } from "../pages";
 import styles from "./ChatBoxComponent.module.css";
 import ensProfile from "./payloads/ensProfile.json";
 import makeDealProposalPayload from "./payloads/makeDealProposal.json";
+import ipfsStreamingPayload from "./payloads/ipfsStreaming.json";
 
 interface ChatBoxComponentProps {
   setStoreUrl: React.Dispatch<React.SetStateAction<string>>;
@@ -174,6 +175,9 @@ const ChatBoxComponent: FC<ChatBoxComponentProps> = ({ setStoreUrl }) => {
       } 
       else if (pathFunction === PathAction.MAKE_DEAL_PROPOSAL) {
         setDynamicAction(makeDealProposalPayload);
+      } 
+      else if (pathFunction === PathAction.PLAY_MEDIA) {
+        setDynamicAction(ipfsStreamingPayload);
       } 
       else {
         const response = await axios.post(pathFunction, data);

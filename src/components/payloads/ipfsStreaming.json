@@ -1,0 +1,12 @@
+{
+	"layout": "IpfsMediaLayout",
+	"section1": [
+		{
+			"name": "VideoName2",
+			"type": "VideoType2",
+			"label": "Videolabel2",
+			"text": "VideoText2",
+			"source": "/ipfs/QmS29VtmK7Ax6TMmMwbwqtuKSGRJTLJAmHMW83qGvBBxhV/bunny.m3u8"
+        }
+	]
+}
