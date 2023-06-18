@@ -23,7 +23,7 @@ const DynamicComponent: FC<DynamicComponentProps> = ({ url }) => {
   const [apiKey, setApiKey] = useState(localStorage.getItem("apiKey"));
   const [isConnected, setIsConnected] = useState(false);
 
-  const { dynamicAction, setDynamicAction } = useContext(MyContext);
+  const { dynamicAction, setDynamicAction, setChatLog } = useContext(MyContext);
 
   useEffect(() => {
     const storedApiKey = localStorage.getItem("apiKey");
@@ -105,7 +105,37 @@ const DynamicComponent: FC<DynamicComponentProps> = ({ url }) => {
       case "makeDealComponentType":
         return (
           <div style={{ marginBottom: '16px' }}>
-            <DealProposalForm onSubmit={makeDealProposal} />
+            <DealProposalForm onSubmit={async () => {
+
+                //REMOVE THIS: JUST FOR TESTING
+                  const params = {
+                    contract: "0xFd562F20E65e0d87598cDA7F2a1Ac348a008fA0D",
+                    pieceCid: "baga6ea4seaqhedb2m6yyr4wejjgxrrehujv5yp6ujzgebqaz22qlm6v74apw6oq",
+                    pieceSize: 4096,
+                    verifiedDeal: false,
+                    label: "file-1686957219783.png",
+                    startEpoch: 100000,
+                    endEpoch: 1000000,
+                    storagePricePerEpoch: 0,
+                    providerCollateral: 0,
+                    clientCollateral: 0,
+                    extraParamsVersion: "1",
+                    locationRef: "https://data-depot.lighthouse.storage/api/download/download_car?fileId=c52f62f1-dd4d-4f02-8352-2af72442818d.car",
+                    carSize: 2061,
+                    skipIpniAnnounce: false,
+                    removeUnsealedCopy: false,
+                }
+              const {message} = await makeDealProposal(params);
+              // dynamicAction.section1[0].proposalResponse = message;
+              setChatLog((prevChatLog) => [
+                ...prevChatLog,
+                {
+                  type: "bot",
+                  message: message,
+                },
+              ]);
+              setDynamicAction(dynamicAction);
+            }} />
           </div>
         );
       case "GetDealProposalTypeButton":

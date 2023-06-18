@@ -37,7 +37,7 @@ export const propertyExtractor = async (question: string) => {
     const jsonEndIndex = trimmedString.lastIndexOf("}");
     const json = trimmedString.substring(jsonStartIndex, jsonEndIndex + 1);
     const propertiesJSON = JSON.parse(json);
-    console.log("choice: ", choices);
+    console.log("choices: ", choices);
     console.log("properties: ", propertiesJSON);
     // console.log("property1 ", properties[0]);
     return propertiesJSON;

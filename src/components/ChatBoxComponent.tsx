@@ -1,4 +1,4 @@
-import { FC, useContext, useState } from "react";
+import { FC, useContext, useEffect, useState } from "react";
 import axios from 'axios';
 import TypingAnimation from "./TypingAnimation";
 import { propertyExtractor } from "../utils/propertyExtractor";
@@ -12,7 +12,7 @@ interface ChatBoxComponentProps {
   setStoreUrl: React.Dispatch<React.SetStateAction<string>>;
 }
 
-interface ChatMessage {
+export interface ChatMessage {
   type: string;
   message: string;
 }
@@ -71,11 +71,28 @@ const ChatInput: FC<{
 
 const ChatBoxComponent: FC<ChatBoxComponentProps> = ({ setStoreUrl }) => {
   const [inputValue, setInputValue] = useState("");
-  const [chatLog, setChatLog] = useState<ChatMessage[]>([]);
+  // const [chatLog, setChatLog] = useState<ChatMessage[]>([]);
   const [isLoading, setIsLoading] = useState(false);
+  const { dynamicAction, setDynamicAction, chatLog, setChatLog } = useContext(MyContext);
 
 
-  const { dynamicAction,setDynamicAction } = useContext(MyContext);
+
+  // useEffect(() => {
+
+  //   const section1 = dynamicAction?.section1;
+  //   if (section1 !== null && section1 !==undefined && section1.length > 0) {
+  //     const message = section1[0].proposalResponse;
+  //     if (message !== null && message !== undefined) {
+  //       setChatLog((prevChatLog) => [
+  //         ...prevChatLog,
+  //         {
+  //           type: "bot",
+  //           message: message,
+  //         },
+  //       ]);
+  //     }
+  //   }
+  // }, [dynamicAction]);
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -117,9 +134,8 @@ const ChatBoxComponent: FC<ChatBoxComponentProps> = ({ setStoreUrl }) => {
     }
 
     try {
-
       if (pathFunction === PathAction.DEFAULT_CHAT) {
-        const response = await axios.post(pathFunction, properties);
+        const response = await axios.post(pathFunction, data);
         console.log(response);
         setChatLog((prevChatLog) => [
           ...prevChatLog,
@@ -157,19 +173,10 @@ const ChatBoxComponent: FC<ChatBoxComponentProps> = ({ setStoreUrl }) => {
         console.log("dynamic action:", dynamicAction);
       } 
       else if (pathFunction === PathAction.MAKE_DEAL_PROPOSAL) {
-        // const response = await axios.post(pathFunction, properties);
-        // setStoreUrl(response.data.url);
-        // setChatLog((prevChatLog) => [
-        //   ...prevChatLog,
-        //   { type: "bot", message: response.data.message },
-        // ]);
-        // console.log("ens profile:", properties.ensName);
-        // console.log(response);
         setDynamicAction(makeDealProposalPayload);
-        // console.log("dynamic action:", dynamicAction);
       } 
       else {
-        const response = await axios.post(pathFunction, properties);
+        const response = await axios.post(pathFunction, data);
         console.log(response);
         setStoreUrl(response.data.url);
         setChatLog((prevChatLog) => [
