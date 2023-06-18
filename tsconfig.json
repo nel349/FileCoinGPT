@@ -25,7 +25,6 @@
     "**/*.tsx",
     "src/pages/_app.js",
     "**/*.json",
-    "**/*.js",
     "**/*.module.css",
   ],
   "exclude": [
