@@ -1,14 +1,15 @@
-import React, { FC, useEffect, useState } from 'react';
+import React, { FC, useContext, useEffect, useState } from 'react';
 import { Button, Input, Detail } from '../styles/components/DynamicInterfaceComponentStyles';
 import LighthouseUpload from './UploadLighthouseComponent';
 import { getApiKey } from '../wallet/getLighthouseApiKey';
 import FileList from './FileListComponent';
 import DealProposalForm from './DealProposalFormComponent';
 import GetExistingDealProposalDetails from './GetExistingDealProposalComponent';
-import { makeDealProposal } from '../fevm/make-deal-proposal';
+import { makeDealProposal,  } from '../fevm/make-deal-proposal';
 import { fetchDealProposal } from '../fevm/get-deal-proposal';
 import { Address } from 'viem';
 import ApiKeyButton from './ApiKeyButton';
+import { MyContext } from '../pages';
 
 interface DynamicComponentProps {
   component?: FC;
@@ -16,11 +17,11 @@ interface DynamicComponentProps {
   data?: any;
 }
 
-const DynamicComponent: FC<DynamicComponentProps> = ({ url, data }) => {
+const DynamicComponent: FC<DynamicComponentProps> = ({ url }) => {
   const [apiKey, setApiKey] = useState(localStorage.getItem("apiKey"));
-  const [proposalId, setProposalId] = useState("");
-  const [smartContract, setSmartContract] = useState("");
   const [isConnected, setIsConnected] = useState(false);
+
+  const { dynamicAction, setDynamicAction } = useContext(MyContext);
 
   useEffect(() => {
     const storedApiKey = localStorage.getItem("apiKey");
@@ -111,6 +112,12 @@ const DynamicComponent: FC<DynamicComponentProps> = ({ url, data }) => {
             <GetExistingDealProposalDetails onSubmit={fetchDealProposal} />
           </div>
         );
+      case "lighthouseUploadType":
+        return (
+          <div style={{ marginBottom: '16px' }}>
+            <LighthouseUpload apiKey={apiKey} style={{ marginBottom: '16px' }} />
+          </div>
+        );
       default:
         return null;
     }
@@ -132,10 +139,10 @@ const DynamicComponent: FC<DynamicComponentProps> = ({ url, data }) => {
         ) : <ApiKeyButton handleClick={handleConnect} />}
       </div>
       <div>
-        {data.section1.map((componentData) => (
+        {dynamicAction?.section1?.map((componentData: any) => (
           <div key={componentData.name}>{renderComponent(componentData)}</div>
         ))}
-        <LighthouseUpload apiKey={apiKey} style={{ marginBottom: '16px' }} />
+        
       </div>
     </div>
   );

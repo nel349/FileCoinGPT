@@ -60,12 +60,25 @@ This is an interpretation of our result:
 - The ENS name resolves to the contract "0x9584DD0D9bA9d81103020281B77EA23cAaC4e3A4"
 - URL to ENS details: https://app.ens.domains/nick.eth
 
-## Get uploads
-1. Question: Upload details from address "0xc44E801873978EC0836A40C5BA9e5aC4204591f8"
+## show upload detials
+1. Question: get recent upload details from address "0xc44E801873978EC0836A40C5BA9e5aC4204591f8"
 
   ````
 {
 	"address": "0xc44E801873978EC0836A40C5BA9e5aC4204591f8"
   "pathFunction": "/api/getUploads"
+}
+  ````
+
+## Upload a CAR file to the Lighthouse data depot.
+Data prep for deal making made easy.
+Upload files, generate CAR and get CAR links - all in one place
+Let user know that upload can be done throught the UI interface that will be shown if the action is supported.
+1. Request: I would like to upload a file to the data depot.
+Question: Can you help me uploading a Car file?
+
+  ````
+{
+  "pathFunction": "/api/uploadFile"
 }
   ````

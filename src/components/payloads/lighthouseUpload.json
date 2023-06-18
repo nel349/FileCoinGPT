@@ -1,0 +1,9 @@
+{
+	"layout": "lighthouseUploadLayout",
+	"section1": [
+		{
+			"name": "lighthouseUploadTypeName",
+			"type": "lighthouseUploadType"
+		}
+	]
+}

@@ -63,6 +63,10 @@
 		{
 			"name": "getDealProposal1",
 			"type": "GetDealProposalTypeButton"
+		},
+		{
+			"name": "lighthouseUploadTypeName",
+			"type": "lighthouseUploadType"
 		}
 	]
 }

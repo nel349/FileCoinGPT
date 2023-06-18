@@ -1,8 +1,9 @@
-import { FC, useState } from "react";
+import { FC, useContext, useState } from "react";
 import axios from 'axios';
 import TypingAnimation from "./TypingAnimation";
 import { propertyExtractor } from "../utils/propertyExtractor";
 import { PathAction, isValidFunctionPath, validatePathResolver } from "../pages/api/route";
+import { MyContext } from "../pages";
 
 interface ChatBoxComponentProps {
   setStoreUrl: React.Dispatch<React.SetStateAction<string>>;
@@ -25,9 +26,8 @@ const ChatLog: FC<{ chatLog: ChatMessage[] }> = ({ chatLog }) => (
       {chatLog.map((message, index) => (
         <div
           key={index}
-          className={`flex ${
-            message.type === "user" ? "justify-end" : "justify-start"
-          }`}
+          className={`flex ${message.type === "user" ? "justify-end" : "justify-start"
+            }`}
         >
           <div
             className={`${message.type === "user" ? "bg-gray-200" : "bg-gray-300"
@@ -71,6 +71,9 @@ const ChatBoxComponent: FC<ChatBoxComponentProps> = ({ setStoreUrl }) => {
   const [chatLog, setChatLog] = useState<ChatMessage[]>([]);
   const [isLoading, setIsLoading] = useState(false);
 
+
+  const { setDynamicAction } = useContext(MyContext);
+
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
@@ -110,9 +113,10 @@ const ChatBoxComponent: FC<ChatBoxComponentProps> = ({ setStoreUrl }) => {
     }
 
     try {
-      const response = await axios.post(pathFunction, data);
-      console.log(response);
+
       if (pathFunction === PathAction.DEFAULT_CHAT) {
+        const response = await axios.post(pathFunction, data);
+        console.log(response);
         setChatLog((prevChatLog) => [
           ...prevChatLog,
           {
@@ -120,12 +124,39 @@ const ChatBoxComponent: FC<ChatBoxComponentProps> = ({ setStoreUrl }) => {
             message: response.data.choices[0].message.content,
           },
         ]);
-      } else {
+        setDynamicAction({}); //set dynamic action to empty
+      }
+      else if (pathFunction === PathAction.UPLOAD_FILE) {
+        // const response = await axios.post(pathFunction, data);
+        // console.log(response);
+        // setChatLog((prevChatLog) => [
+        //   ...prevChatLog,
+        //   {
+        //     type: "bot",
+        //     message: response.data.choices[0].message.content,
+        //   },
+        // ]);
+
+        const object: any = {
+          "layout": "lighthouseUploadLayout",
+          "section1": [
+            {
+              "name": "lighthouseUploadTypeName",
+              "type": "lighthouseUploadType"
+            }
+          ]
+        };
+        setDynamicAction(object);
+      } 
+      else {
+        const response = await axios.post(pathFunction, data);
+        console.log(response);
         setStoreUrl(response.data.url);
         setChatLog((prevChatLog) => [
           ...prevChatLog,
           { type: "bot", message: response.data.message },
         ]);
+        setDynamicAction({}); //set dynamic action to empty
       }
     } catch (error) {
       console.log(error);
