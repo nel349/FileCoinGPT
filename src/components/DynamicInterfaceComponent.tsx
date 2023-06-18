@@ -122,21 +122,22 @@ const DynamicComponent: FC<DynamicComponentProps> = ({ url, data }) => {
   }
 
   return (
-    <div style={{ display: 'flex', alignItems: 'center' }}>
-      {isConnected ? (
-        <div style={{ backgroundColor: '#0070f3', color: '#fff', padding: '8px', borderRadius: '4px', marginLeft: '16px' }}>
-          Connected to LightHouse: ****{apiKey.slice(-4)}
-          <button onClick={handleDisconnect} style={{ backgroundColor: '#fff', color: '#0070f3', border: 'none', borderRadius: '4px', cursor: 'pointer', padding: '8px', marginLeft: '16px' }}>Disconnect</button>
-        </div>
-      ) : <ApiKeyButton handleClick={handleConnect} />}
+    <div>
+      <div style={{ display: 'flex', alignItems: 'center' }}>
+        {isConnected ? (
+          <div style={{ backgroundColor: '#0070f3', color: '#fff', padding: '8px', borderRadius: '4px', marginLeft: '16px' }}>
+            Connected to LightHouse: ****{apiKey.slice(-4)}
+            <button onClick={handleDisconnect} style={{ backgroundColor: '#fff', color: '#0070f3', border: 'none', borderRadius: '4px', cursor: 'pointer', padding: '8px', marginLeft: '16px' }}>Disconnect</button>
+          </div>
+        ) : <ApiKeyButton handleClick={handleConnect} />}
+      </div>
+      <div>
+        {data.section1.map((componentData) => (
+          <div key={componentData.name}>{renderComponent(componentData)}</div>
+        ))}
+        <LighthouseUpload apiKey={apiKey} style={{ marginBottom: '16px' }} />
+      </div>
     </div>
-
-    // <div>
-    //   {data.section1.map((componentData) => (
-    //     <div key={componentData.name}>{renderComponent(componentData)}</div>
-    //   ))}
-    //   <LighthouseUpload apiKey={apiKey} style={{ marginBottom: '16px' }} />
-    // </div>
   );
 };
 

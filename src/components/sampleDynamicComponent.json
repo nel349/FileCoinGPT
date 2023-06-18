@@ -3,14 +3,14 @@
 	"section1": [
 		{
 			"name": "button1",
-			"label": "label1",
+			"label": "button1",
 			"action": "action1",
 			"type": "actionButton1"
 		},
 
 		{
 			"name": "button2",
-			"label": "label2",
+			"label": "button2",
 			"action": "action2",
 			"type": "actionButton2",
 			"inputTextField": {
