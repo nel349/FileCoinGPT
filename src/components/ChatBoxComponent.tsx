@@ -135,12 +135,12 @@ const ChatBoxComponent: FC<ChatBoxComponentProps> = ({ setStoreUrl }) => {
   };
 
   return (
-    <div className="container mx-auto">
-      <div className="flex flex-col h-screen bg-white">
+    <div className="container mx-auto" style={{ backgroundColor: "#f5f5f5" }}>
+      <div className="flex flex-col fit-screen">
         <h1
           className="text-center py-3 font-bold text-6xl"
           style={{
-            backgroundImage: "linear-gradient(to right, #8b314b, #d3d3d3)",
+            backgroundImage: "linear-gradient(to right, #e0dede, #d3d3d3)",
             WebkitBackgroundClip: "text",
             WebkitTextFillColor: "transparent",
             backgroundSize: "cover",
@@ -150,8 +150,8 @@ const ChatBoxComponent: FC<ChatBoxComponentProps> = ({ setStoreUrl }) => {
         </h1>
         <ChatLog chatLog={chatLog} />
         {isLoading && (
-          <div key={chatLog.length} className="flex justify-start">
-            <div className="bg-gray-300 rounded-lg p-4 text-black max-w-sm">
+          <div key={chatLog.length} className="flex justify-start p-6">
+            <div className="bg-gray-300 rounded-lg p-2 text-black max-w-sm">
               <TypingAnimation />
             </div>
           </div>
