@@ -5,6 +5,7 @@ export enum PathAction {
     GET_UPLOADS = '/api/getUploads',
     UPLOAD_FILE = '/api/uploadFile',
     VIEW_FILES = 'http://localhost:3333/api/viewFiles',
+    MAKE_DEAL_PROPOSAL = '/api/makeDealProposal',
 }
 
 export const validatePathResolver = (action: PathAction) => {

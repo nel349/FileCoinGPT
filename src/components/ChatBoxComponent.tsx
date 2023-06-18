@@ -6,6 +6,7 @@ import { PathAction, isValidFunctionPath, validatePathResolver } from "../pages/
 import { MyContext } from "../pages";
 import styles from "./ChatBoxComponent.module.css";
 import ensProfile from "./payloads/ensProfile.json";
+import makeDealProposalPayload from "./payloads/makeDealProposal.json";
 
 interface ChatBoxComponentProps {
   setStoreUrl: React.Dispatch<React.SetStateAction<string>>;
@@ -154,6 +155,18 @@ const ChatBoxComponent: FC<ChatBoxComponentProps> = ({ setStoreUrl }) => {
         // console.log(response);
         setDynamicAction(payload);
         console.log("dynamic action:", dynamicAction);
+      } 
+      else if (pathFunction === PathAction.MAKE_DEAL_PROPOSAL) {
+        // const response = await axios.post(pathFunction, properties);
+        // setStoreUrl(response.data.url);
+        // setChatLog((prevChatLog) => [
+        //   ...prevChatLog,
+        //   { type: "bot", message: response.data.message },
+        // ]);
+        // console.log("ens profile:", properties.ensName);
+        // console.log(response);
+        setDynamicAction(makeDealProposalPayload);
+        // console.log("dynamic action:", dynamicAction);
       } 
       else {
         const response = await axios.post(pathFunction, properties);

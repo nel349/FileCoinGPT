@@ -82,3 +82,13 @@ Question: Can you help me uploading a Car file?
   "pathFunction": "/api/uploadFile"
 }
   ````
+## Making a deal proposal example.
+Present a form data for user to make a deal proposal over the FileCoin network.
+1. Request: I would like to make a deal proposal.
+Question: Can you help me send a deal proposal?
+
+  ````
+{
+  "pathFunction": "/api/makeDealProposal"
+}
+  ````

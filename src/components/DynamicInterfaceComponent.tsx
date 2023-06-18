@@ -137,11 +137,11 @@ const DynamicComponent: FC<DynamicComponentProps> = ({ url }) => {
 
   return (
     <div>
-      <div style={{ display: 'flex', alignItems: 'center', flexDirection: 'column', justifyContent: 'center', width: '100%', height: '100%' }}>
+      <div style={{ alignItems: 'center', flexDirection: 'column', justifyContent: 'center', width: '100%', height: '100%' }}>
         {isConnected ? (
           <div style={{ backgroundColor: '#0070f3', color: '#fff', padding: '8px', borderRadius: '4px', marginLeft: '16px' }}>
             Connected to LightHouse: ****{apiKey.slice(-4)}
-            <button onClick={handleDisconnect} style={{ backgroundColor: '#fff', color: '#0070f3', border: 'none', borderRadius: '4px', cursor: 'pointer', padding: '8px', marginLeft: '16px' }}>Disconnect</button>
+            <button onClick={handleDisconnect} style={{ backgroundColor: '#fff', color: '#0070f3', border: 'none', borderRadius: '4px', cursor: 'pointer', padding: '8px', marginLeft: '72px' }}>Disconnect</button>
           </div>
         ) : <ApiKeyButton handleClick={handleConnect} />}
       </div>

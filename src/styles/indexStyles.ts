@@ -13,9 +13,6 @@ export const leftPaneStyle = {
 };
 
 export const rightPaneStyle = {
-    display: "flex",
-    justifyContent: "space-between",
-    alignItems: "flex-start",
     padding: "20px",
     backgroundColor: "#f5f5f5",
     minHeight: "100%",

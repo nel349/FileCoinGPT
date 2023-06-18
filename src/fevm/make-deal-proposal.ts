@@ -41,7 +41,6 @@ export async function makeDealProposal(params: DealProposalParams) {
         carSize: 2061,
         skipIpniAnnounce: false,
         removeUnsealedCopy: false,
-
     }
 
     const cid = params.pieceCid

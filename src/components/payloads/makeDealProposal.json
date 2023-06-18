@@ -1,0 +1,9 @@
+{
+	"layout": "DealLayout",
+	"section1": [
+		{
+			"name": "makeDealProposal1",
+			"type": "makeDealComponentType"
+		}
+	]
+}
