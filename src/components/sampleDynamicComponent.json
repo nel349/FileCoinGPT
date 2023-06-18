@@ -53,8 +53,8 @@
 			"text": "ApiKeyButton"
 		},
 		{
-			"name": "list1",
-			"type": "listType1"
+			"name": "viewFilesCarFiles",
+			"type": "viewFilesCarFilesType"
 		},
 		{
 			"name": "makeDealProposal1",

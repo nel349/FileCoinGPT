@@ -94,7 +94,7 @@ const DynamicComponent: FC<DynamicComponentProps> = ({ url }) => {
             </Button>
           </div>
         );
-      case "listType1":
+      case "viewFilesCarFilesType":
         return (
           <div style={{ marginBottom: '16px' }}>
             <FileList apiKey={apiKey} />
@@ -130,7 +130,7 @@ const DynamicComponent: FC<DynamicComponentProps> = ({ url }) => {
 
   return (
     <div>
-      <div style={{ display: 'flex', alignItems: 'center' }}>
+      <div style={{ display: 'flex', alignItems: 'center', flexDirection: 'column', justifyContent: 'center', width: '100%', height: '100%' }}>
         {isConnected ? (
           <div style={{ backgroundColor: '#0070f3', color: '#fff', padding: '8px', borderRadius: '4px', marginLeft: '16px' }}>
             Connected to LightHouse: ****{apiKey.slice(-4)}
@@ -142,7 +142,6 @@ const DynamicComponent: FC<DynamicComponentProps> = ({ url }) => {
         {dynamicAction?.section1?.map((componentData: any) => (
           <div key={componentData.name}>{renderComponent(componentData)}</div>
         ))}
-        
       </div>
     </div>
   );

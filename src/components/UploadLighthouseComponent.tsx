@@ -1,7 +1,9 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import axios from "axios";
 import { PathAction } from "../pages/api/route";
 import styles from "./UploadLighthouseComponent.module.css";
+import sampleDynamicComponent from '../../src/components/payloads/lighthouseUploadViewAllFiles.json';
+import { MyContext } from "../pages";
 
 interface Props {
     apiKey: string;
@@ -11,6 +13,7 @@ interface Props {
 function LighthouseUpload({ apiKey }: Props) {
     const [uploadState, setUploadState] = useState<string>("");
     const [pendingUpload, setPendingUpload] = useState<boolean>(false);
+    const { dynamicAction, setDynamicAction } = useContext(MyContext);
 
     const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         console.log("Files", e.target.files);
@@ -37,6 +40,8 @@ function LighthouseUpload({ apiKey }: Props) {
             // Handle the response
             if (response.status == 200) {
                 setUploadState("Upload successful");
+                dynamicAction.section1
+                setDynamicAction(sampleDynamicComponent);
             } else {
                 setUploadState("Upload failed");
             }

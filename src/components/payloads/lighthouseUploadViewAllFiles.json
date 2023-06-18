@@ -1,0 +1,13 @@
+{
+	"layout": "lighthouseUploadLayout",
+	"section1": [
+		{
+			"name": "lighthouseUploadTypeName",
+			"type": "lighthouseUploadType"
+		},
+		{
+			"name": "viewFilesCarFiles",
+			"type": "viewFilesCarFilesType"
+		}
+	]
+}
