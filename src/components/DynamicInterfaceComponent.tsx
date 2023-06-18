@@ -122,21 +122,14 @@ const DynamicComponent: FC<DynamicComponentProps> = ({ url, data }) => {
   }
 
   return (
-    <div style={{ marginBottom: '16px' }}>
-      {isConnected && (
-        <div style={{ backgroundColor: '#0070f3', color: '#fff', padding: '8px', borderRadius: '4px', marginBottom: '16px' }}>
-          {apiKey && (
-            <div style={{ backgroundColor: '#0070f3', color: '#fff', padding: '8px', borderRadius: '4px', marginBottom: '16px' }}>
-              Connected to API with key: ****{apiKey.slice(-4)}
-            </div>
-          )}
-          <button onClick={handleDisconnect} style={{ marginLeft: '16px', backgroundColor: '#fff', color: '#0070f3', border: 'none', borderRadius: '4px', cursor: 'pointer' }}>Disconnect</button>
+    <div style={{ display: 'flex', alignItems: 'center' }}>
+      {isConnected ? (
+        <div style={{ backgroundColor: '#0070f3', color: '#fff', padding: '8px', borderRadius: '4px', marginLeft: '16px' }}>
+          Connected to LightHouse: ****{apiKey.slice(-4)}
+          <button onClick={handleDisconnect} style={{ backgroundColor: '#fff', color: '#0070f3', border: 'none', borderRadius: '4px', cursor: 'pointer', padding: '8px', marginLeft: '16px' }}>Disconnect</button>
         </div>
-      )}
-      {!isConnected && <div style={{ marginBottom: '16px' }}>
-        <ApiKeyButton handleClick={handleConnect} />
-      </div>}
-    </div> 
+      ) : <ApiKeyButton handleClick={handleConnect} />}
+    </div>
 
     // <div>
     //   {data.section1.map((componentData) => (
