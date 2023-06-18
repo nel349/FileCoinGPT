@@ -10,6 +10,7 @@ import { fetchDealProposal } from '../fevm/get-deal-proposal';
 import { Address } from 'viem';
 import ApiKeyButton from './ApiKeyButton';
 import { MyContext } from '../pages';
+import IFrameComponentNoSSR from './IFrameComponentNoSSR';
 
 interface DynamicComponentProps {
   component?: FC;
@@ -125,7 +126,7 @@ const DynamicComponent: FC<DynamicComponentProps> = ({ url }) => {
 
   if (url !== undefined && url !== null && url !== '' && url !== "empty") {
     console.log("url:", url);
-    return <iframe src={url} />;
+    return <IFrameComponentNoSSR src={url} />;
   }
 
   return (

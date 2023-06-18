@@ -128,16 +128,18 @@ const ChatBoxComponent: FC<ChatBoxComponentProps> = ({ setStoreUrl }) => {
         setDynamicAction({}); //set dynamic action to empty
       }
       else if (pathFunction === PathAction.UPLOAD_FILE) {
-        // const response = await axios.post(pathFunction, data);
-        // console.log(response);
-        // setChatLog((prevChatLog) => [
-        //   ...prevChatLog,
-        //   {
-        //     type: "bot",
-        //     message: response.data.choices[0].message.content,
-        //   },
-        // ]);
-
+        const object: any = {
+          "layout": "lighthouseUploadLayout",
+          "section1": [
+            {
+              "name": "lighthouseUploadTypeName",
+              "type": "lighthouseUploadType"
+            }
+          ]
+        };
+        setDynamicAction(object);
+      } 
+      else if (pathFunction === PathAction.UPLOAD_FILE) {
         const object: any = {
           "layout": "lighthouseUploadLayout",
           "section1": [
