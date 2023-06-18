@@ -4,6 +4,7 @@ import LighthouseUpload from './UploadLighthouseComponent';
 import { getApiKey } from '../wallet/getLighthouseApiKey';
 import FileList from './FileListComponent';
 import DealProposalForm from './DealProposalFormComponent';
+import GetExistingDealProposalDetails from './GetExistingDealProposalComponent';
 import { makeDealProposal } from '../fevm/make-deal-proposal';
 import { fetchDealProposal } from '../fevm/get-deal-proposal';
 import { Address } from 'viem';
@@ -84,15 +85,7 @@ const DynamicComponent: FC<DynamicComponentProps> = ({ url, data }) => {
       case "GetDealProposalTypeButton":
         return (
           <div style={{ marginBottom: '16px' }}>
-            <div style={{ marginBottom: '8px' }}>
-              <label htmlFor="proposalId">Proposal ID:</label>
-              <input type="text" id="proposalId" value={proposalId} onChange={(e) => setProposalId(e.target.value)} />
-            </div>
-            <div style={{ marginBottom: '8px' }}>
-              <label htmlFor="smartContract">Smart Contract:</label>
-              <input type="text" id="smartContract" value={smartContract} onChange={(e) => setSmartContract(e.target.value)} />
-            </div>
-            <Button onClick={() => fetchDealProposal(proposalId, smartContract as Address)}>Get Deal Proposal</Button>
+            <GetExistingDealProposalDetails onSubmit={fetchDealProposal} />
           </div>
         );
       default:

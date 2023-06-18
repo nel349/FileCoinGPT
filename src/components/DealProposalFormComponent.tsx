@@ -7,19 +7,19 @@ interface DealProposalFormProps {
 }
 
 export default function DealProposalForm({ onSubmit }: DealProposalFormProps) {
-  const [contract, setContract] = useState("");
-  const [pieceCid, setPieceCid] = useState("");
-  const [pieceSize, setPieceSize] = useState(0);
+  const [contract, setContract] = useState("0xFd562F20E65e0d87598cDA7F2a1Ac348a008fA0D");
+  const [pieceCid, setPieceCid] = useState("baga6ea4seaqhedb2m6yyr4wejjgxrrehujv5yp6ujzgebqaz22qlm6v74apw6oq");
+  const [pieceSize, setPieceSize] = useState(4096);
   const [verifiedDeal, setVerifiedDeal] = useState(false);
-  const [label, setLabel] = useState("");
-  const [startEpoch, setStartEpoch] = useState(0);
-  const [endEpoch, setEndEpoch] = useState(0);
+  const [label, setLabel] = useState("file-1686957219783.png");
+  const [startEpoch, setStartEpoch] = useState(520000);
+  const [endEpoch, setEndEpoch] = useState(1555200);
   const [storagePricePerEpoch, setStoragePricePerEpoch] = useState(0);
   const [providerCollateral, setProviderCollateral] = useState(0);
   const [clientCollateral, setClientCollateral] = useState(0);
-  const [extraParamsVersion, setExtraParamsVersion] = useState("");
-  const [locationRef, setLocationRef] = useState("");
-  const [carSize, setCarSize] = useState(0);
+  const [extraParamsVersion, setExtraParamsVersion] = useState("1");
+  const [locationRef, setLocationRef] = useState("https://data-depot.lighthouse.storage/api/download/download_car?fileId=c52f62f1-dd4d-4f02-8352-2af72442818d.car");
+  const [carSize, setCarSize] = useState(2061);
   const [skipIpniAnnounce, setSkipIpniAnnounce] = useState(false);
   const [removeUnsealedCopy, setRemoveUnsealedCopy] = useState(false);
 
