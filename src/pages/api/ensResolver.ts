@@ -38,7 +38,7 @@ export default async function handler(req, res) {
             try {
                 const parsedEnsResult = JSON.stringify(ensResult);
                 console.log("ensResult: ", parsedEnsResult);
-                const body = `Interpret this: ${parsedEnsResult}`;
+                const body = `Give user a summary of the results for the requested ENS name: ${parsedEnsResult}`;
 
                 const configuration = new Configuration({ apiKey: process.env.REACT_APP_OPENAI_API_KEY});
                 delete configuration.baseOptions.headers['User-Agent'];
@@ -46,19 +46,28 @@ export default async function handler(req, res) {
 
 
                 //this method is used to create a chat with the question and the context
-                const response = await openai.createChatCompletion({
-                  model: "gpt-3.5-turbo",
-                  messages:[
-                    {"role": "system", "content": context},
-                    {"role": "user", "content": body }
-                  ]
+                // const response = await openai.createCompletion({
+                //     model: "text-davinci-002",
+                //     prompt: `${context}\n${body}`,
+                //     maxTokens: 1024,
+                //     n: 1,
+                //     stop: "\n",
+                //     temperature: 0.7,
+                //     engine: "davinci"
+                //   });
+
+                  const response = await openai.createCompletion({
+                    model: 'text-davinci-003',
+                    prompt: `${body}`,
+                    temperature: 0.5,
+                    max_tokens: 2048
                 });
 
                 let choices = response?.data?.choices;
-                let message = choices[0]?.message?.content;
+                let message = choices[0]?.text;
 
 
-                console.log("message ENS Solve OK: ", message);
+                console.log("message ENS Solve OK: ", choices);
                 res.status(200).json({message, url: ensResult.url});
             } catch (error) {
                 console.log("ERROR: ENS RESOLVE RESPONSE: ", error);
