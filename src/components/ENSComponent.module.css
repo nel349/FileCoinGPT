@@ -1,0 +1,62 @@
+.ens-profile {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin: 20px;
+    padding: 20px;
+    max-width: 100%;
+  }
+  
+  .ens-profile-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  
+  .ens-profile-address {
+    font-size: 14px;
+    color: #999;
+  }
+  
+  .ens-profile-content {
+    margin-bottom: 20px;
+    max-width: 100%;
+  }
+  
+  .ens-profile-content-label {
+    font-weight: bold;
+    margin-right: 10px;
+  }
+  
+  .ens-profile-contact {
+    margin-bottom: 20px;
+  }
+  
+  .ens-profile-contact-label {
+    font-weight: bold;
+    margin-right: 10px;
+  }
+  
+  .ens-profile-text-records {
+    margin-bottom: 20px;
+  }
+  
+  .ens-profile-text-record-key {
+    font-weight: bold;
+    margin-right: 10px;
+  }
+  
+  .ens-profile-coin-types {
+    margin-bottom: 20px;
+  }
+  
+  .ens-profile-coin-type-coin {
+    font-weight: bold;
+    margin-right: 10px;
+  }
+  
+  .ens-profile-coin-type-key {
+    margin-right: 10px;
+  }

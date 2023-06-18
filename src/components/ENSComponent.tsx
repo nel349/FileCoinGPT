@@ -4,6 +4,8 @@ import { JsonRpcProvider } from "@ethersproject/providers";
 
 import { ENS } from "@ensdomains/ensjs";
 
+import style from "./ENSComponent.module.css";
+
 interface ENSProfile {
   name: string;
   address: string;
@@ -68,32 +70,49 @@ function ENSProfileComponent(props: ENSProfileComponentProps) {
   }
 
   return (
-    <div>
-      <h1>{ensProfile.name}</h1>
-      <p>Address: {ensProfile.address}</p>
-      <p>Content: {ensProfile.content}</p>
-      <p>Email: {ensProfile.email}</p>
-      <p>URL: {ensProfile.url}</p>
+    <div className={style["ens-profile"]}>
+        <div className={style["ens-profile-header"]}>
+            <h1>{ensProfile.name}</h1>
+            <p className={style["ens-profile-address"]}>{ensProfile.address}</p>
+        </div>
 
-      <h2>Text Records</h2>
-      <ul>
-        {textRecords.map((textRecord, index) => (
-          <li key={index}>
-            {textRecord.key} : {textRecord.value}
-          </li>
-        ))}
-      </ul>
+        <div className={style["ens-profile-content"]}>
+            <p className={style["ens-profile-content-label"]}>Content:</p>
+            <p className={style["ens-profile-content-value"]}>{ensProfile.content}</p>
+        </div>
 
-      <h2>Coin Types</h2>
-      <ul>
-        {coinTypes.map((coinType, index) => (
-          <li key={index}>
-            {coinType.coin} ({coinType.key}): {coinType.addr}
-          </li>
-        ))}
-      </ul>
+        <div className={style["ens-profile-contact"]}>
+            <p className={style["ens-profile-contact-label"]}>Contact:</p>
+            <p className={style["ens-profile-contact-value"]}>{ensProfile.email}</p>
+            <p className={style["ens-profile-contact-value"]}>{ensProfile.url}</p>
+        </div>
+
+        <div className={style["ens-profile-text-records"]}>
+            <h2>Text Records</h2>
+            <ul>
+                {textRecords.map((textRecord, index) => (
+                    <li key={index}>
+                        <span className={style["ens-profile-text-record-key"]}>{textRecord.key}:</span>{" "}
+                        <span className={style["ens-profile-text-record-value"]}>{textRecord.value}</span>
+                    </li>
+                ))}
+            </ul>
+        </div>
+
+        <div className={style["ens-profile-coin-types"]}>
+            <h2>Coin Types</h2>
+            <ul>
+                {coinTypes.map((coinType, index) => (
+                    <li key={index}>
+                        <span className={style["ens-profile-coin-type-coin"]}>{coinType.coin}</span>{" "}
+                        <span className={style["ens-profile-coin-type-key"]}>({coinType.key}):</span>{" "}
+                        <span className={style["ens-profile-coin-type-addr"]}>{coinType.addr}</span>
+                    </li>
+                ))}
+            </ul>
+        </div>
     </div>
-  );
+);
 }
 
 export default ENSProfileComponent;

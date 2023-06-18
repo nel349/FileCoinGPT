@@ -32,9 +32,7 @@ export default async function handler(req, res) {
 
             const ensResult = {
                 address: address,
-                url: `https://app.ens.domains/${ensName}`,
-                urlContents: `The contents of the url`,
-                summary: `This is the address of ${ensName}`,
+                url: `https://app.ens.domains/${ensName}`
             };
 
             try {
