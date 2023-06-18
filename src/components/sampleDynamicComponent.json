@@ -67,6 +67,10 @@
 		{
 			"name": "lighthouseUploadTypeName",
 			"type": "lighthouseUploadType"
+		},
+		{
+			"name": "ENSProfileName",
+			"type": "ENSProfileNameType"
 		}
 	]
 }

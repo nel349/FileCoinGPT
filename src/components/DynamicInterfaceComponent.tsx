@@ -11,6 +11,7 @@ import { Address } from 'viem';
 import ApiKeyButton from './ApiKeyButton';
 import { MyContext } from '../pages';
 import IFrameComponentNoSSR from './IFrameComponentNoSSR';
+import ENSProfileComponent from './ENSComponent';
 
 interface DynamicComponentProps {
   component?: FC;
@@ -119,15 +120,20 @@ const DynamicComponent: FC<DynamicComponentProps> = ({ url }) => {
             <LighthouseUpload apiKey={apiKey} style={{ marginBottom: '16px' }} />
           </div>
         );
+      case "ENSProfileNameType":
+        return (
+          <ENSProfileComponent/>
+        );
+
       default:
         return null;
     }
   };
 
-  if (url !== undefined && url !== null && url !== '' && url !== "empty") {
-    console.log("url:", url);
-    return <IFrameComponentNoSSR src={url} />;
-  }
+  // if (url !== undefined && url !== null && url !== '' && url !== "empty") {
+  //   console.log("url:", url);
+  //   return <IFrameComponentNoSSR src={url} />;
+  // }
 
   return (
     <div>

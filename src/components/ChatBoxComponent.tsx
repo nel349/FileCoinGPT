@@ -5,6 +5,7 @@ import { propertyExtractor } from "../utils/propertyExtractor";
 import { PathAction, isValidFunctionPath, validatePathResolver } from "../pages/api/route";
 import { MyContext } from "../pages";
 import styles from "./ChatBoxComponent.module.css";
+import ensProfile from "./payloads/ensProfile.json";
 
 interface ChatBoxComponentProps {
   setStoreUrl: React.Dispatch<React.SetStateAction<string>>;
@@ -73,7 +74,7 @@ const ChatBoxComponent: FC<ChatBoxComponentProps> = ({ setStoreUrl }) => {
   const [isLoading, setIsLoading] = useState(false);
 
 
-  const { setDynamicAction } = useContext(MyContext);
+  const { dynamicAction,setDynamicAction } = useContext(MyContext);
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -96,9 +97,10 @@ const ChatBoxComponent: FC<ChatBoxComponentProps> = ({ setStoreUrl }) => {
       messages: [{ role: "user", content: message }],
     };
 
+    let properties: any;
     let pathFunction: string = PathAction.DEFAULT_CHAT;
     try {
-      const properties = await propertyExtractor(message);
+      properties = await propertyExtractor(message);
       if (
         properties !== undefined &&
         isValidFunctionPath(properties.pathFunction)
@@ -116,7 +118,7 @@ const ChatBoxComponent: FC<ChatBoxComponentProps> = ({ setStoreUrl }) => {
     try {
 
       if (pathFunction === PathAction.DEFAULT_CHAT) {
-        const response = await axios.post(pathFunction, data);
+        const response = await axios.post(pathFunction, properties);
         console.log(response);
         setChatLog((prevChatLog) => [
           ...prevChatLog,
@@ -139,20 +141,22 @@ const ChatBoxComponent: FC<ChatBoxComponentProps> = ({ setStoreUrl }) => {
         };
         setDynamicAction(object);
       } 
-      else if (pathFunction === PathAction.UPLOAD_FILE) {
-        const object: any = {
-          "layout": "lighthouseUploadLayout",
-          "section1": [
-            {
-              "name": "lighthouseUploadTypeName",
-              "type": "lighthouseUploadType"
-            }
-          ]
-        };
-        setDynamicAction(object);
+      else if (pathFunction === PathAction.RESOLVE_ENS) {
+        const response = await axios.post(pathFunction, properties);
+        setStoreUrl(response.data.url);
+        setChatLog((prevChatLog) => [
+          ...prevChatLog,
+          { type: "bot", message: response.data.message },
+        ]);
+        console.log("ens profile:", properties.ensName);
+        let payload = ensProfile;
+        payload["section1"][0]["name"] = properties?.ensName;
+        // console.log(response);
+        setDynamicAction(payload);
+        console.log("dynamic action:", dynamicAction);
       } 
       else {
-        const response = await axios.post(pathFunction, data);
+        const response = await axios.post(pathFunction, properties);
         console.log(response);
         setStoreUrl(response.data.url);
         setChatLog((prevChatLog) => [

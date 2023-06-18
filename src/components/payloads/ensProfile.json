@@ -1,0 +1,9 @@
+{
+	"layout": "ENSLayout",
+	"section1": [
+		{
+			"name": "ENSProfileName",
+			"type": "ENSProfileNameType"
+		}
+	]
+}
